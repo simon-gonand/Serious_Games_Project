@@ -1,5 +1,4 @@
 #include "Application.h"
-#include <stdio.h>
 
 namespace Engine {
 
@@ -12,7 +11,6 @@ namespace Engine {
 	}
 
 	void Application::Run() {
-		printf("Hello World!");
 		while (true);
 	}
 }
