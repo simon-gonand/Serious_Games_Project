@@ -34,7 +34,27 @@ namespace Engine {
 		/* Make the window's context current */
 		glfwMakeContextCurrent(m_Window);
 		glfwSwapInterval(1); // sets the frame rate
-		//glfwSetWindowUserPointer(m_Window, &m_Data); // To use for windows events
+		
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+			switch (action) {
+			case GLFW_PRESS:
+				Logger::GetSystemLogger()->info("Key: \'{}\' is pressed", key);
+				break;
+			case GLFW_RELEASE:
+				Logger::GetSystemLogger()->info("Key: \'{}\' has been released", key);
+				break;
+			case GLFW_REPEAT:
+				Logger::GetSystemLogger()->info("Key: \'{}\' is repeated", key);
+				break;
+			}
+			
+		});
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
+			Logger::GetSystemLogger()->info("Mouse moved: {}, {}", xpos, ypos);
+		});
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
+			Logger::GetSystemLogger()->info("Scroll: {}, {}", xpos, ypos);
+		});
 
 		Engine::Logger::GetSystemLogger()->info("Window \"{}\" Width: {}, Height: {} is set", props.Title, props.Width, props.Height);
 	}
