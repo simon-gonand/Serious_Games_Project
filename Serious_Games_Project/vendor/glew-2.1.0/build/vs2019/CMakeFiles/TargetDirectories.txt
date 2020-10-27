@@ -1,0 +1,8 @@
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/glewinfo.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/glew.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/glew_s.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/uninstall.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/visualinfo.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/INSTALL.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/ALL_BUILD.dir
+D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/CMakeFiles/ZERO_CHECK.dir

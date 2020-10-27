@@ -35,6 +35,11 @@ namespace Engine {
 		glfwMakeContextCurrent(m_Window);
 		glfwSwapInterval(1); // sets the frame rate
 		
+		if (glewInit() != GLEW_OK)
+		{
+			Logger::GetAppLogger()->info("GLEW ERROR: failed initialization!");
+		}
+
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
 			switch (action) {
 			case GLFW_PRESS:

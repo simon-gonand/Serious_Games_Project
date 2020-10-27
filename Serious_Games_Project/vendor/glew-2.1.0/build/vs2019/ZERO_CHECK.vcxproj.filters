@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\simon\UWS_level10\Serious_Games\Project\Serious_Games_Project\.git\modules\Serious_Games_Project\vendor\glew-2.1.0\build\vs2019\CMakeFiles\a54a73d27bb7a8470a52950735206f4f\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{5D591A8D-72E5-3785-988B-4018E9E66E90}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

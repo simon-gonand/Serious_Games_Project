@@ -1,0 +1,10 @@
+^D:\SIMON\UWS_LEVEL10\SERIOUS_GAMES\PROJECT\SERIOUS_GAMES_PROJECT\.GIT\MODULES\SERIOUS_GAMES_PROJECT\VENDOR\GLEW-2.1.0\BUILD\VS2019\CMAKEFILES\A54A73D27BB7A8470A52950735206F4F\GENERATE.STAMP.RULE
+setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/cmake -BD:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019 --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/glew.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,5 @@
+﻿  Building Custom Rule D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/cmake/CMakeLists.txt
+  glew.c
+     Creating library D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/lib/Debug/glew32d.lib and object D:/simon/UWS_level10/Serious_Games/Project/Serious_Games_Project/.git/modules/Serious_Games_Project/vendor/glew-2.1.0/build/vs2019/lib/Debug/glew32d.exp
+LINK : warning LNK4281: undesirable base address 0x62AA0000 for x64 image; set base address above 4GB for best ASLR optimization
+  glew.vcxproj -> D:\simon\UWS_level10\Serious_Games\Project\Serious_Games_Project\.git\modules\Serious_Games_Project\vendor\glew-2.1.0\build\vs2019\bin\Debug\glew32d.dll

@@ -1,9 +1,12 @@
 #pragma once
 
+// Include glew
+#include "GL/glew.h"
+
 #include <string>
 
-#include "../Engine/System.h"
 #include "GLFW/glfw3.h"
+#include "../Engine/System.h"
 
 namespace Engine {
 
