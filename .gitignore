@@ -1,6 +1,7 @@
 # Directories
 .vs/
 Serious_Games_Project/x64
+x64
 
 # Files
 *.user
