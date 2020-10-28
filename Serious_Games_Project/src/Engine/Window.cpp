@@ -34,7 +34,7 @@ namespace Engine {
 		/* Make the window's context current */
 		glfwMakeContextCurrent(m_Window);
 		glfwSwapInterval(1); // sets the frame rate
-		
+		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK)
 		{
 			Logger::GetAppLogger()->info("GLEW ERROR: failed initialization!");
