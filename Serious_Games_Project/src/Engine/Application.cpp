@@ -13,6 +13,10 @@ namespace Engine {
 
 	void Application::Run() {
 		while (m_Running) {
+			// clear the screen and set the background color to grey
+			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			m_Window->OnUpdate();
 		}
 	}

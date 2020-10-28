@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE_PLATFORM_WINDOWS; ENGINE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\src;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\src;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -73,7 +73,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE_PLATFORM_WINDOWS; ENGINE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\src;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\src;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
