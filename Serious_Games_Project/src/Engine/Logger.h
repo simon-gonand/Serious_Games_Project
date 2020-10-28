@@ -2,12 +2,11 @@
 
 #include <memory>
 
-#include "System.h"
 #include "spdlog/spdlog.h"
 
 namespace Engine {
 
-	class ENGINE_API Logger
+	class Logger
 	{
 	public:
 		static void Init();
