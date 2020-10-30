@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Window.h"
+#include "Engine/Shader.h"
 
 #include <memory>
 
@@ -17,5 +18,7 @@ private:
 	bool m_Running = true;
 
 	unsigned int m_VAO, m_VBO, m_IBO;
+
+	std::shared_ptr<Engine::Shader> m_Shader;
 };
 
