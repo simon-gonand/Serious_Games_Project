@@ -54,7 +54,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -71,7 +71,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,15 +83,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Engine\Logger.cpp" />
     <ClCompile Include="src\Engine\Window.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Engine\Logger.h" />
     <ClInclude Include="src\Engine\Window.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shaders\Background.frag" />
+    <None Include="src\Shaders\Background.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
