@@ -42,7 +42,7 @@ Application::Application() {
 
 Application::~Application() {
 	Engine::GUI::Destroy();
-	glfwTerminate();
+	m_Window.reset(nullptr);
 }
 
 void Application::GUIRender() {
@@ -53,7 +53,7 @@ void Application::GUIRender() {
 }
 
 void Application::Run() {
-	while (m_Running) {
+	while (!glfwWindowShouldClose(m_Window->GetWindow())) {
 		// clear the screen and set the background color to grey
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

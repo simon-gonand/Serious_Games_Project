@@ -17,7 +17,6 @@ public:
 
 private:
 	std::unique_ptr<Engine::Window> m_Window;
-	bool m_Running = true;
 
 	unsigned int m_VAO, m_VBO, m_IBO;
 
