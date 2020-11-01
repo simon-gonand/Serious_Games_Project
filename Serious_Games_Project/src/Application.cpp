@@ -12,10 +12,10 @@ Application::Application() {
 
 	GLfloat vertices[4 * 5]{
 		  // Positions			 // Textures
-		-1.0f, -1.0f, 0.0f,		-1.0f, -1.0f,
-		 1.0f, 1.0f, 0.0f,		 1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f,		-1.0f, 1.0f,
-		 1.0f, -1.0f, 0.0f,		 1.0f, -1.0f
+		-1.0f, -1.0f, 0.0f,		 0.0f, 0.0f, // Bottom left
+		 1.0f, 1.0f, 0.0f,		 1.0f, 1.0f, // Top right
+		-1.0f, 1.0f, 0.0f,		 0.0f, 1.0f, // Top left
+		 1.0f, -1.0f, 0.0f,		 1.0f, 0.0f  // Bottom right
 	};
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -26,7 +26,7 @@ Application::Application() {
 
 	// Texture coord
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
 
 	glGenBuffers(1, &m_IBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
