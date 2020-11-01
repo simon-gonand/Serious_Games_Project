@@ -82,4 +82,5 @@ namespace Engine {
 
 	unsigned int Window::GetWidth() const { return m_Data.Width; }
 	unsigned int Window::GetHeight() const { return m_Data.Height; }
+	GLFWwindow* Window::GetWindow() const { return m_Window; }
 }

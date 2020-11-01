@@ -54,7 +54,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image;$(SolutionDir)Serious_Games_Project\vendor\imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -71,7 +71,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Serious_Games_Project\vendor\spdlog\include;$(SolutionDir)Serious_Games_Project\vendor\GLFW\include;$(SolutionDir)Serious_Games_Project\vendor\glew-2.1.0\include;$(SolutionDir)Serious_Games_Project\vendor\stb_image;$(SolutionDir)Serious_Games_Project\vendor\imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,22 +83,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\GUI.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Engine\Logger.cpp" />
     <ClCompile Include="src\Engine\Window.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="vendor\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="vendor\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="vendor\imgui\imgui.cpp" />
+    <ClCompile Include="vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="vendor\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\GUI.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Engine\Logger.h" />
     <ClInclude Include="src\Engine\Window.h" />
+    <ClInclude Include="vendor\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="vendor\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="vendor\imgui\imconfig.h" />
+    <ClInclude Include="vendor\imgui\imgui.h" />
+    <ClInclude Include="vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="vendor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="vendor\imgui\imstb_textedit.h" />
+    <ClInclude Include="vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\Background.frag" />
     <None Include="src\Shaders\Background.vert" />
+    <None Include="vendor\imgui\.editorconfig" />
+    <None Include="vendor\imgui\.git" />
+    <None Include="vendor\imgui\.gitattributes" />
+    <None Include="vendor\imgui\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="vendor\imgui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -30,6 +30,7 @@ namespace Engine {
 
 		unsigned int GetWidth() const;
 		unsigned int GetHeight() const;
+		GLFWwindow* GetWindow() const;
 
 		static Window* Create(const WindowProps& props);
 

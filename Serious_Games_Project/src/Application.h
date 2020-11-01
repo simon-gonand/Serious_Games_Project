@@ -2,6 +2,7 @@
 
 #include "Engine/Window.h"
 #include "Engine/Shader.h"
+#include "Engine/GUI.h"
 
 #include <memory>
 
@@ -12,6 +13,7 @@ public:
 	virtual ~Application();
 
 	void Run();
+	void GUIRender();
 
 private:
 	std::unique_ptr<Engine::Window> m_Window;

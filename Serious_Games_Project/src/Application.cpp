@@ -3,6 +3,9 @@
 Application::Application() {
 	Engine::WindowProps props = Engine::WindowProps("Window", 960, 540);
 	m_Window = std::unique_ptr<Engine::Window> (Engine::Window::Create(props));
+	
+	//GUI
+	Engine::GUI::Init(m_Window.get());
 
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
@@ -38,7 +41,15 @@ Application::Application() {
 }
 
 Application::~Application() {
-		
+	Engine::GUI::Destroy();
+	glfwTerminate();
+}
+
+void Application::GUIRender() {
+	ImGui::Begin("Test");
+	if (ImGui::Button("Hello World !"))
+		Engine::Logger::GetAppLogger()->debug("Hello World !");
+	ImGui::End();
 }
 
 void Application::Run() {
@@ -47,11 +58,17 @@ void Application::Run() {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		Engine::GUI::CreateNewFrame();
+
 		m_Shader->Bind();
 
 		glBindTexture(GL_TEXTURE_2D, m_Shader->GetTexID());
 		glBindVertexArray(m_VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+		GUIRender();
+
+		Engine::GUI::Render();
 
 		m_Window->OnUpdate();
 	}
