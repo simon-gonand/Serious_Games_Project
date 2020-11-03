@@ -27,6 +27,7 @@ private:
 
 	std::shared_ptr<Engine::Shader> m_Shader;
 
+	bool m_DrawIsEnable;
 	bool m_MouseButtonIsPressed;
 	std::vector<std::vector<GLfloat>> m_MousePoints;
 	std::vector<int> m_MouseReleaseIndices;

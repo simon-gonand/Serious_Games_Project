@@ -5,6 +5,7 @@ Application::Application() {
 	m_Window = std::unique_ptr<Engine::Window> (Engine::Window::Create(props));
 	this->setEventHandling();
 	m_MouseButtonIsPressed = false;
+	m_DrawIsEnable = false;
 	
 	//GUI
 	Engine::GUI::Init(m_Window.get());
@@ -50,8 +51,11 @@ Application::~Application() {
 
 void Application::GUIRender() {
 	ImGui::Begin("Test");
-	if (ImGui::Button("Hello World !"))
-		Engine::Logger::GetAppLogger()->debug("Hello World !");
+	if (ImGui::Button("Clear Screen")) {
+		m_MousePoints.clear();
+		m_MouseReleaseIndices.clear();
+	}
+	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
 	ImGui::End();
 }
 
@@ -110,7 +114,7 @@ void Application::MouseButtonCallback(GLFWwindow* window, int button, int action
 }
 
 void Application::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
-	if (m_MouseButtonIsPressed) {
+	if (m_MouseButtonIsPressed && m_DrawIsEnable) {
 		std::vector<GLfloat> pos(3);
 		double xpos, ypos;
 		glfwGetCursorPos(m_Window->GetWindow(), &xpos, &ypos);
