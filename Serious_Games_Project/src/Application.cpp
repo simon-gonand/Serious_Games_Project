@@ -3,6 +3,8 @@
 Application::Application() {
 	Engine::WindowProps props = Engine::WindowProps("Window", 960, 540);
 	m_Window = std::unique_ptr<Engine::Window> (Engine::Window::Create(props));
+	this->setEventHandling();
+	m_MouseButtonIsPressed = false;
 	
 	//GUI
 	Engine::GUI::Init(m_Window.get());
@@ -41,6 +43,7 @@ Application::Application() {
 }
 
 Application::~Application() {
+	this->removeEventHandling();
 	Engine::GUI::Destroy();
 	m_Window.reset(nullptr);
 }
@@ -54,6 +57,9 @@ void Application::GUIRender() {
 
 void Application::Run() {
 	while (!glfwWindowShouldClose(m_Window->GetWindow())) {
+		if (m_MouseButtonIsPressed) {
+			Engine::Logger::GetAppLogger()->debug("Mouse button left is pressed");
+		}
 		// clear the screen and set the background color to grey
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -72,4 +78,12 @@ void Application::Run() {
 
 		m_Window->OnUpdate();
 	}
+}
+
+// Events
+void Application::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		m_MouseButtonIsPressed = true;
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+		m_MouseButtonIsPressed = false;
 }

@@ -87,6 +87,7 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Engine\Logger.cpp" />
+    <ClCompile Include="src\Engine\StateHandling.cpp" />
     <ClCompile Include="src\Engine\Window.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="vendor\imgui\backends\imgui_impl_glfw.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Engine\Logger.h" />
+    <ClInclude Include="src\Engine\StateHandling.h" />
     <ClInclude Include="src\Engine\Window.h" />
     <ClInclude Include="vendor\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="vendor\imgui\backends\imgui_impl_opengl3.h" />

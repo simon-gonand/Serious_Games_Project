@@ -40,26 +40,10 @@ namespace Engine {
 			Logger::GetAppLogger()->info("GLEW ERROR: failed initialization!");
 		}
 
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-			switch (action) {
-			case GLFW_PRESS:
-				Logger::GetSystemLogger()->info("Key: \'{}\' is pressed", key);
-				break;
-			case GLFW_RELEASE:
-				Logger::GetSystemLogger()->info("Key: \'{}\' has been released", key);
-				break;
-			case GLFW_REPEAT:
-				Logger::GetSystemLogger()->info("Key: \'{}\' is repeated", key);
-				break;
-			}
-			
-		});
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
-			Logger::GetSystemLogger()->info("Mouse moved: {}, {}", xpos, ypos);
-		});
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
-			Logger::GetSystemLogger()->info("Scroll: {}, {}", xpos, ypos);
-		});
+		/*glfwSetKeyCallback(m_Window, StateHandling::KeyCallback_dispatch);
+		glfwSetCursorPosCallback(m_Window, StateHandling::MouseCallback_dispatch);     // Not useful yet
+		glfwSetScrollCallback(m_Window, StateHandling::ScrollCallback_dispatch);*/
+		glfwSetMouseButtonCallback(m_Window, StateHandling::MouseButtonCallback_dispatch);
 
 		Engine::Logger::GetSystemLogger()->info("Window \"{}\" Width: {}, Height: {} is set", props.Title, props.Width, props.Height);
 	}

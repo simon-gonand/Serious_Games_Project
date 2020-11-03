@@ -2,10 +2,11 @@
 
 // Include glew
 #include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 #include <string>
 
-#include "GLFW/glfw3.h"
+#include "StateHandling.h"
 
 namespace Engine {
 
