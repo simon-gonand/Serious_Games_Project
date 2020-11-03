@@ -57,20 +57,20 @@ void Application::GUIRender() {
 
 void Application::Run() {
 	while (!glfwWindowShouldClose(m_Window->GetWindow())) {
-		if (m_MouseButtonIsPressed) {
-			Engine::Logger::GetAppLogger()->debug("Mouse button left is pressed");
-		}
 		// clear the screen and set the background color to grey
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		Engine::GUI::CreateNewFrame();
 
 		m_Shader->Bind();
 
+
 		glBindTexture(GL_TEXTURE_2D, m_Shader->GetTexID());
 		glBindVertexArray(m_VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+		DisplayMousePoints();
 
 		GUIRender();
 
@@ -80,10 +80,43 @@ void Application::Run() {
 	}
 }
 
+void Application::DisplayMousePoints() {
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glBegin(GL_LINES);
+	for (int i = 1; i < m_MousePoints.size(); ++i) {
+		glColor3f(0.0f, 0.0f, 0.0f);//The color of the painted points
+		if (std::find(m_MouseReleaseIndices.begin(), m_MouseReleaseIndices.end(), i) != m_MouseReleaseIndices.end()) {
+			glVertex3f(m_MousePoints[i][0], m_MousePoints[i][1], m_MousePoints[i][2]);
+			if (i < m_MousePoints.size() - 1)
+				glVertex3f(m_MousePoints[i + 1][0], m_MousePoints[i + 1][1], m_MousePoints[i + 1][2]);
+		}
+		else {
+			glVertex3f(m_MousePoints[i][0], m_MousePoints[i][1], m_MousePoints[i][2]);
+			glVertex3f(m_MousePoints[i - 1][0], m_MousePoints[i - 1][1], m_MousePoints[i - 1][2]);
+		}
+	}
+	glEnd();
+}
+
 // Events
 void Application::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		m_MouseButtonIsPressed = true;
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		m_MouseButtonIsPressed = false;
+		m_MouseReleaseIndices.push_back(m_MousePoints.size());
+	}
+}
+
+void Application::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
+	if (m_MouseButtonIsPressed) {
+		std::vector<GLfloat> pos(3);
+		double xpos, ypos;
+		glfwGetCursorPos(m_Window->GetWindow(), &xpos, &ypos);
+		pos[0] = xpos / 480 - 1;
+		pos[1] = (ypos / 270 - 1) * -1;
+		pos[2] = 0.0f;
+		m_MousePoints.push_back(pos);
+	}
 }

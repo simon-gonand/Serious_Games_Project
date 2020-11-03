@@ -6,6 +6,7 @@
 #include "Engine/StateHandling.h"
 
 #include <memory>
+#include <vector>
 
 class Application: public StateHandling
 {
@@ -17,6 +18,7 @@ public:
 	void GUIRender();
 
 	virtual void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) override;
+	virtual void MouseCallback(GLFWwindow* window, double xpos, double ypos) override;
 
 private:
 	std::unique_ptr<Engine::Window> m_Window;
@@ -26,5 +28,8 @@ private:
 	std::shared_ptr<Engine::Shader> m_Shader;
 
 	bool m_MouseButtonIsPressed;
+	std::vector<std::vector<GLfloat>> m_MousePoints;
+	std::vector<int> m_MouseReleaseIndices;
+	void DisplayMousePoints();
 };
 

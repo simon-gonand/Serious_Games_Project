@@ -21,7 +21,7 @@ namespace Engine {
 		}
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); // if 3 glVertex doesn't work
 
 		m_Window = glfwCreateWindow((int) props.Width, (int)props.Height, props.Title.c_str(), nullptr, nullptr);
 		if (!m_Window)
@@ -40,9 +40,9 @@ namespace Engine {
 			Logger::GetAppLogger()->info("GLEW ERROR: failed initialization!");
 		}
 
-		/*glfwSetKeyCallback(m_Window, StateHandling::KeyCallback_dispatch);
-		glfwSetCursorPosCallback(m_Window, StateHandling::MouseCallback_dispatch);     // Not useful yet
+		/*glfwSetKeyCallback(m_Window, StateHandling::KeyCallback_dispatch);			    // Not useful yet
 		glfwSetScrollCallback(m_Window, StateHandling::ScrollCallback_dispatch);*/
+		glfwSetCursorPosCallback(m_Window, StateHandling::MouseCallback_dispatch);
 		glfwSetMouseButtonCallback(m_Window, StateHandling::MouseButtonCallback_dispatch);
 
 		Engine::Logger::GetSystemLogger()->info("Window \"{}\" Width: {}, Height: {} is set", props.Title, props.Width, props.Height);
