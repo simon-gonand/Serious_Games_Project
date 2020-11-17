@@ -10,7 +10,7 @@ namespace Engine {
 	{
 	public:
 		Entity(GLfloat* vertices, unsigned int* indices, size_t vertexSize, size_t indexSize,
-			Shader* shader, bool m_IsTextured);
+			Shader* shader, bool m_IsTextured, int drawType);
 		~Entity();
 
 		void Draw();
@@ -19,6 +19,7 @@ namespace Engine {
 		Shader* m_Shader;
 		unsigned int m_VAO, m_VBO, m_IBO;
 		int m_IndexSize;
+		int m_DrawType;
 	};
 }
 

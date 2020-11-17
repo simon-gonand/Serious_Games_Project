@@ -119,6 +119,8 @@
   <ItemGroup>
     <None Include="src\Shaders\Background.frag" />
     <None Include="src\Shaders\Background.vert" />
+    <None Include="src\Shaders\Model.frag" />
+    <None Include="src\Shaders\Model.vert" />
     <None Include="vendor\imgui\.editorconfig" />
     <None Include="vendor\imgui\.git" />
     <None Include="vendor\imgui\.gitattributes" />

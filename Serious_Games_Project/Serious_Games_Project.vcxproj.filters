@@ -115,6 +115,8 @@
     <None Include="vendor\imgui\.git" />
     <None Include="vendor\imgui\.gitattributes" />
     <None Include="vendor\imgui\.gitignore" />
+    <None Include="src\Shaders\Model.frag" />
+    <None Include="src\Shaders\Model.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\imgui\LICENSE.txt" />

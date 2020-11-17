@@ -20,13 +20,12 @@ Application::Application() {
 
 	unsigned int backgroundIndices[6] = { 0, 1, 2, 0, 1, 3 };
 
-	Engine::Shader* m_Shader = 
+	Engine::Shader* backgroundShader = 
 		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/background.jpg");
 
 	std::unique_ptr<Engine::Entity> backgroundEntity = 
 		std::make_unique<Engine::Entity> (backgroundVertices, backgroundIndices, sizeof(backgroundVertices),
-			sizeof(backgroundIndices), m_Shader, true);
-
+			sizeof(backgroundIndices), backgroundShader, true, GL_TRIANGLES);
 	m_Entities.push_back(*backgroundEntity);
 }
 
@@ -41,6 +40,39 @@ void Application::GUIRender() {
 	if (ImGui::Button("Clear Screen")) {
 		m_MousePoints.clear();
 		m_MouseReleaseIndices.clear();
+		for (unsigned i = 1; i < m_Entities.size(); ++i)
+			m_Entities.erase(m_Entities.begin() + i);
+	}
+	if (ImGui::Button("Display Rectangle Model")) {
+		GLfloat rectangleVertices[4 * 3]{
+			0.0f, 0.0f, 0.0f,	// Bottom left
+			0.3f, 0.1f, 0.0f,	// Top right
+			0.0f, 0.1f, 0.0f,	// Top left
+			0.3f, 0.0f, 0.0f,	// Bottom right
+		};
+
+		unsigned int rectangleIndices[8] = { 0, 2, 2, 1, 1, 3, 3, 0 };
+
+		Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+		std::unique_ptr<Engine::Entity> rectangleModelEntity =
+			std::make_unique<Engine::Entity>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
+				sizeof(rectangleIndices), modelShader, false, GL_LINES);
+		m_Entities.push_back(*rectangleModelEntity);
+	}
+	if (ImGui::Button("Display Triangle Model")) {
+		GLfloat triangleVertices[3 * 3]{
+			-0.4f,  0.2f, 0.0f,
+			-0.1f,  0.2f, 0.0f,
+			-0.25f, 0.0f, 0.0f
+		};
+
+		unsigned int triangleIndices[6] = { 0, 1, 1, 2, 2, 0 };
+
+		Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+		std::unique_ptr<Engine::Entity> triangleModelEntity =
+			std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
+				sizeof(triangleIndices), modelShader, false, GL_LINES);
+		m_Entities.push_back(*triangleModelEntity);
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
 	ImGui::End();
