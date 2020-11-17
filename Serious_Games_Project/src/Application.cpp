@@ -10,13 +10,7 @@ Application::Application() {
 	//GUI
 	Engine::GUI::Init(m_Window.get());
 
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
-	GLfloat vertices[4 * 5]{
+	GLfloat backgroundVertices[4 * 5]{
 		  // Positions			 // Textures
 		-1.0f, -1.0f, 0.0f,		 0.0f, 0.0f, // Bottom left
 		 1.0f, 1.0f, 0.0f,		 1.0f, 1.0f, // Top right
@@ -24,23 +18,16 @@ Application::Application() {
 		 1.0f, -1.0f, 0.0f,		 1.0f, 0.0f  // Bottom right
 	};
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	unsigned int backgroundIndices[6] = { 0, 1, 2, 0, 1, 3 };
 
-	// Position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
+	Engine::Shader* m_Shader = 
+		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/background.jpg");
 
-	// Texture coord
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+	std::unique_ptr<Engine::Entity> backgroundEntity = 
+		std::make_unique<Engine::Entity> (backgroundVertices, backgroundIndices, sizeof(backgroundVertices),
+			sizeof(backgroundIndices), m_Shader, true);
 
-	glGenBuffers(1, &m_IBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-
-	unsigned int indices[6] = { 0, 1, 2, 0, 1, 3 };
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	m_Shader = std::make_shared<Engine::Shader>("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/background.jpg");
+	m_Entities.push_back(*backgroundEntity);
 }
 
 Application::~Application() {
@@ -67,13 +54,8 @@ void Application::Run() {
 
 		Engine::GUI::CreateNewFrame();
 
-		m_Shader->Bind();
-
-
-		glBindTexture(GL_TEXTURE_2D, m_Shader->GetTexID());
-		glBindVertexArray(m_VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
+		for (Engine::Entity &entity : m_Entities)
+			entity.Draw();
 		DisplayMousePoints();
 
 		GUIRender();

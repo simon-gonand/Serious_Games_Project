@@ -55,25 +55,25 @@ namespace Engine {
 			return;
 		}
 
-		prog = glCreateProgram();
+		m_Prog = glCreateProgram();
 
-		glAttachShader(prog, vertShader);
-		glAttachShader(prog, fragShader);
+		glAttachShader(m_Prog, vertShader);
+		glAttachShader(m_Prog, fragShader);
 
-		glLinkProgram(prog);
+		glLinkProgram(m_Prog);
 		GLint isLinked = 0;
-		glGetProgramiv(prog, GL_LINK_STATUS, (int*)&isLinked);
+		glGetProgramiv(m_Prog, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(m_Prog, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(m_Prog, maxLength, &maxLength, &infoLog[0]);
 
 			// We don't need the program anymore.
-			glDeleteProgram(prog);
+			glDeleteProgram(m_Prog);
 			// Don't leak shaders either.
 			glDeleteShader(vertShader);
 			glDeleteShader(fragShader);
@@ -83,8 +83,8 @@ namespace Engine {
 			return;
 		}
 
-		glDetachShader(prog, vertShader);
-		glDetachShader(prog, fragShader);
+		glDetachShader(m_Prog, vertShader);
+		glDetachShader(m_Prog, fragShader);
 	}
 
 	Shader::Shader(const char* vertSrcFile, const char* fragSrcFile, const char* texSrcFile) {
@@ -138,25 +138,25 @@ namespace Engine {
 			return;
 		}
 
-		prog = glCreateProgram();
+		m_Prog = glCreateProgram();
 
-		glAttachShader(prog, vertShader);
-		glAttachShader(prog, fragShader);
+		glAttachShader(m_Prog, vertShader);
+		glAttachShader(m_Prog, fragShader);
 
-		glLinkProgram(prog);
+		glLinkProgram(m_Prog);
 		GLint isLinked = 0;
-		glGetProgramiv(prog, GL_LINK_STATUS, (int*)&isLinked);
+		glGetProgramiv(m_Prog, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(m_Prog, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(m_Prog, maxLength, &maxLength, &infoLog[0]);
 
 			// We don't need the program anymore.
-			glDeleteProgram(prog);
+			glDeleteProgram(m_Prog);
 			// Don't leak shaders either.
 			glDeleteShader(vertShader);
 			glDeleteShader(fragShader);
@@ -166,12 +166,12 @@ namespace Engine {
 			return;
 		}
 
-		glDetachShader(prog, vertShader);
-		glDetachShader(prog, fragShader);
+		glDetachShader(m_Prog, vertShader);
+		glDetachShader(m_Prog, fragShader);
 
-		glGenTextures(1, &texID); // generate texture ID
+		glGenTextures(1, &m_TexID); // generate texture ID
 
-		glBindTexture(GL_TEXTURE_2D, texID);
+		glBindTexture(GL_TEXTURE_2D, m_TexID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -181,18 +181,17 @@ namespace Engine {
 	}
 
 	Shader::~Shader(){
-		glDeleteProgram(prog);
+		glDeleteProgram(m_Prog);
 	}
 
 	void Shader::Bind() const{
-		glUseProgram(prog);
+		glUseProgram(m_Prog);
+		glBindTexture(GL_TEXTURE_2D, m_TexID);
 	}
 
 	void Shader::Unbind() const{
 		glUseProgram(0);
 	}
-
-	GLuint Shader::GetTexID() const { return texID; }
 
 	void Shader::LoadTexture(const char* texSrcFile) const {
 		int width, height, nrChannels;

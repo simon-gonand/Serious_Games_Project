@@ -18,11 +18,9 @@ namespace Engine {
 		void Bind() const;
 		void Unbind() const;
 
-		GLuint GetTexID() const;
-
 	private:
-		GLuint prog;
-		GLuint texID;
+		GLuint m_Prog;
+		GLuint m_TexID;
 
 		void LoadTexture(const char* texSrcFile) const;
 		char* loadFile(const char* fname, GLint& fSize);

@@ -4,6 +4,7 @@
 #include "Engine/Shader.h"
 #include "Engine/GUI.h"
 #include "Engine/StateHandling.h"
+#include "Engine/Entity.h"
 
 #include <memory>
 #include <vector>
@@ -23,9 +24,7 @@ public:
 private:
 	std::unique_ptr<Engine::Window> m_Window;
 
-	unsigned int m_VAO, m_VBO, m_IBO;
-
-	std::shared_ptr<Engine::Shader> m_Shader;
+	std::vector<Engine::Entity> m_Entities;
 
 	bool m_DrawIsEnable;
 	bool m_MouseButtonIsPressed;
