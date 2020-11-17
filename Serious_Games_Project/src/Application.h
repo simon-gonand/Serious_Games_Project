@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 
 class Application: public StateHandling
 {
@@ -25,6 +26,7 @@ private:
 	std::unique_ptr<Engine::Window> m_Window;
 
 	std::vector<Engine::Entity> m_Entities;
+	std::map<const char*, Engine::Entity> m_Models;
 
 	bool m_DrawIsEnable;
 	bool m_MouseButtonIsPressed;

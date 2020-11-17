@@ -40,39 +40,47 @@ void Application::GUIRender() {
 	if (ImGui::Button("Clear Screen")) {
 		m_MousePoints.clear();
 		m_MouseReleaseIndices.clear();
-		for (unsigned i = 1; i < m_Entities.size(); ++i)
+		for (unsigned i = 1; i < m_Entities.size(); ++i) {
 			m_Entities.erase(m_Entities.begin() + i);
+			m_Models.clear();
+		}
 	}
 	if (ImGui::Button("Display Rectangle Model")) {
-		GLfloat rectangleVertices[4 * 3]{
-			0.0f, 0.0f, 0.0f,	// Bottom left
-			0.3f, 0.1f, 0.0f,	// Top right
-			0.0f, 0.1f, 0.0f,	// Top left
-			0.3f, 0.0f, 0.0f,	// Bottom right
-		};
+		if (m_Models.find("Rectangle") == m_Models.end()) {
+			GLfloat rectangleVertices[4 * 3]{
+				0.0f, 0.0f, 0.0f,	// Bottom left
+				0.3f, 0.1f, 0.0f,	// Top right
+				0.0f, 0.1f, 0.0f,	// Top left
+				0.3f, 0.0f, 0.0f,	// Bottom right
+			};
 
-		unsigned int rectangleIndices[8] = { 0, 2, 2, 1, 1, 3, 3, 0 };
+			unsigned int rectangleIndices[8] = { 0, 2, 2, 1, 1, 3, 3, 0 };
 
-		Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-		std::unique_ptr<Engine::Entity> rectangleModelEntity =
-			std::make_unique<Engine::Entity>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
-				sizeof(rectangleIndices), modelShader, false, GL_LINES);
-		m_Entities.push_back(*rectangleModelEntity);
+			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+			std::unique_ptr<Engine::Entity> rectangleModelEntity =
+				std::make_unique<Engine::Entity>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
+					sizeof(rectangleIndices), modelShader, false, GL_LINES);
+			m_Entities.push_back(*rectangleModelEntity);
+			m_Models.insert(std::pair<const char*, Engine::Entity>("Rectangle", *rectangleModelEntity));
+		}
 	}
 	if (ImGui::Button("Display Triangle Model")) {
-		GLfloat triangleVertices[3 * 3]{
-			-0.4f,  0.2f, 0.0f,
-			-0.1f,  0.2f, 0.0f,
-			-0.25f, 0.0f, 0.0f
-		};
+		if (m_Models.find("Triangle") == m_Models.end()) {
+			GLfloat triangleVertices[3 * 3]{
+				-0.4f,  0.2f, 0.0f,
+				-0.1f,  0.2f, 0.0f,
+				-0.25f, 0.0f, 0.0f
+			};
 
-		unsigned int triangleIndices[6] = { 0, 1, 1, 2, 2, 0 };
+			unsigned int triangleIndices[6] = { 0, 1, 1, 2, 2, 0 };
 
-		Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-		std::unique_ptr<Engine::Entity> triangleModelEntity =
-			std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
-				sizeof(triangleIndices), modelShader, false, GL_LINES);
-		m_Entities.push_back(*triangleModelEntity);
+			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+			std::unique_ptr<Engine::Entity> triangleModelEntity =
+				std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
+					sizeof(triangleIndices), modelShader, false, GL_LINES);
+			m_Entities.push_back(*triangleModelEntity);
+			m_Models.insert(std::pair<const char*, Engine::Entity>("Triangle", *triangleModelEntity));
+		}
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
 	ImGui::End();
