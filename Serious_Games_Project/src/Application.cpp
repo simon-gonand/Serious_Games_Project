@@ -4,7 +4,7 @@ Application::Application() {
 	Engine::WindowProps props = Engine::WindowProps("Window", 960, 540);
 	m_Window = std::unique_ptr<Engine::Window> (Engine::Window::Create(props));
 	this->setEventHandling();
-	m_MouseButtonIsPressed = false;
+	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
 	
 	//GUI
@@ -38,8 +38,7 @@ Application::~Application() {
 void Application::GUIRender() {
 	ImGui::Begin("Test");
 	if (ImGui::Button("Clear Screen")) {
-		m_MousePoints.clear();
-		m_MouseReleaseIndices.clear();
+		MousePoints::instance().Clear();
 		for (unsigned i = 1; i < m_Entities.size(); ++i) {
 			m_Entities.erase(m_Entities.begin() + i);
 			m_Models.clear();
@@ -96,7 +95,7 @@ void Application::Run() {
 
 		for (Engine::Entity &entity : m_Entities)
 			entity.Draw();
-		DisplayMousePoints();
+		MousePoints::instance().Display();
 
 		GUIRender();
 
@@ -106,43 +105,24 @@ void Application::Run() {
 	}
 }
 
-void Application::DisplayMousePoints() {
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glBegin(GL_LINES);
-	for (int i = 1; i < m_MousePoints.size(); ++i) {
-		glColor3f(0.0f, 0.0f, 0.0f);//The color of the painted points
-		if (std::find(m_MouseReleaseIndices.begin(), m_MouseReleaseIndices.end(), i) != m_MouseReleaseIndices.end()) {
-			glVertex3f(m_MousePoints[i][0], m_MousePoints[i][1], m_MousePoints[i][2]);
-			if (i < m_MousePoints.size() - 1)
-				glVertex3f(m_MousePoints[i + 1][0], m_MousePoints[i + 1][1], m_MousePoints[i + 1][2]);
-		}
-		else {
-			glVertex3f(m_MousePoints[i][0], m_MousePoints[i][1], m_MousePoints[i][2]);
-			glVertex3f(m_MousePoints[i - 1][0], m_MousePoints[i - 1][1], m_MousePoints[i - 1][2]);
-		}
-	}
-	glEnd();
-}
-
 // Events
 void Application::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-		m_MouseButtonIsPressed = true;
+		MousePoints::instance().SetMouseButtonIsPressed(true);
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-		m_MouseButtonIsPressed = false;
-		m_MouseReleaseIndices.push_back(m_MousePoints.size());
+		MousePoints::instance().SetMouseButtonIsPressed(false);
+		MousePoints::instance().AddReleaseIndex();
 	}
 }
 
 void Application::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
-	if (m_MouseButtonIsPressed && m_DrawIsEnable) {
+	if (MousePoints::instance().GetMouseButtonIsPressed() && m_DrawIsEnable) {
 		std::vector<GLfloat> pos(3);
 		double xpos, ypos;
 		glfwGetCursorPos(m_Window->GetWindow(), &xpos, &ypos);
 		pos[0] = xpos / 480 - 1;
 		pos[1] = (ypos / 270 - 1) * -1;
 		pos[2] = 0.0f;
-		m_MousePoints.push_back(pos);
+		MousePoints::instance().AddMousePoint(pos);
 	}
 }

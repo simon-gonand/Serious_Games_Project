@@ -5,6 +5,7 @@
 #include "Engine/GUI.h"
 #include "Engine/StateHandling.h"
 #include "Engine/Entity.h"
+#include "MousePoints.h"
 
 #include <memory>
 #include <vector>
@@ -29,9 +30,5 @@ private:
 	std::map<const char*, Engine::Entity> m_Models;
 
 	bool m_DrawIsEnable;
-	bool m_MouseButtonIsPressed;
-	std::vector<std::vector<GLfloat>> m_MousePoints;
-	std::vector<int> m_MouseReleaseIndices;
-	void DisplayMousePoints();
 };
 
