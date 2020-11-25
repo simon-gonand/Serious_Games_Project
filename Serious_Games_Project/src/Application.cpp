@@ -71,12 +71,12 @@ void Application::GUIRender() {
 				-0.25f, 0.0f, 0.0f
 			};
 
-			unsigned int triangleIndices[6] = { 0, 1, 1, 2, 2, 0 };
+			unsigned int triangleIndices[3] = { 0, 1, 2 };
 
 			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
 			std::unique_ptr<Engine::Entity> triangleModelEntity =
 				std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
-					sizeof(triangleIndices), modelShader, false, GL_LINES);
+					sizeof(triangleIndices), modelShader, false, GL_TRIANGLES);
 			m_Entities.push_back(*triangleModelEntity);
 			m_Models.insert(std::pair<const char*, Engine::Entity>("Triangle", *triangleModelEntity));
 		}
@@ -93,9 +93,13 @@ void Application::Run() {
 
 		Engine::GUI::CreateNewFrame();
 
-		for (Engine::Entity &entity : m_Entities)
-			entity.Draw();
-		MousePoints::instance().Display();
+		MousePoints& instance = MousePoints::instance();
+		for (unsigned i = 0; i < m_Entities.size(); ++i) {
+			m_Entities[i].Draw();
+			if (i != 0 && !instance.IsEmpty())
+				std::cout << instance.IsInside(m_Entities[i]) << std::endl;
+		}
+		instance.Display();
 
 		GUIRender();
 

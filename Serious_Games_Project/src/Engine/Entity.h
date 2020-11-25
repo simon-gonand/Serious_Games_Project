@@ -15,10 +15,18 @@ namespace Engine {
 
 		void Draw();
 
+		std::vector<std::vector<GLfloat>> GetVertices() const;
+	
+		std::vector<unsigned int> GetIndices() const;
+		int GetIndexSize() const;
+
 	private:
 		Shader* m_Shader;
-		unsigned int m_VAO, m_VBO, m_IBO;
+		std::vector<std::vector<GLfloat>> m_Vertices;
 		int m_IndexSize;
+		std::vector<unsigned int> m_Indices;
+		unsigned int m_VAO, m_VBO, m_IBO;
+		int m_VertexSize;
 		int m_DrawType;
 	};
 }
