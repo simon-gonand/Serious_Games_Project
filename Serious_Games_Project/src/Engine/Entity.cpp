@@ -2,7 +2,7 @@
 
 namespace Engine {
 	Entity::Entity(GLfloat* vertices, unsigned int* indices, size_t vertexSize, size_t indexSize,
-		Shader* shader, bool isTextured, int drawType) {
+		Shader* shader, bool isTextured) {
 		glGenVertexArrays(1, &this->m_VAO);
 		glBindVertexArray(this->m_VAO);
 
@@ -40,7 +40,6 @@ namespace Engine {
 
 		glBindVertexArray(0);
 
-		m_DrawType = drawType;
 		m_Shader = shader;
 	}
 
@@ -49,7 +48,7 @@ namespace Engine {
 	void Entity::Draw() {
 		m_Shader->Bind();
 		glBindVertexArray(this->m_VAO);
-		glDrawElements(m_DrawType, m_IndexSize, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, m_IndexSize, GL_UNSIGNED_INT, 0);
 		m_Shader->Unbind();
 	}
 
