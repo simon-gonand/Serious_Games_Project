@@ -25,7 +25,7 @@ private:
 
 	/* Check if the points are inside a polygon. Those functions are inspired by this algorithm 
 	   https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/ */
-	bool IsInsidePolygone(std::vector<GLfloat> polygonePoints);
+	int IsInsidePolygone(std::vector<GLfloat> polygonePoints);
 	bool PointIsInsidePolygone(std::vector<GLfloat> polygonePoints, std::vector<GLfloat> mousePoint);
 	/* Using Ray-Casting algorithm from 
 	https://rosettacode.org/wiki/Ray-casting_algorithm#C.2B.2B */

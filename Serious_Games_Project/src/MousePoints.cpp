@@ -22,7 +22,7 @@ void MousePoints::Display() {
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glBegin(GL_LINES);
 	for (int i = 1; i < m_MousePoints.size(); ++i) {
-		glColor3f(0.0f, 0.0f, 0.0f);//The color of the painted points
+		glColor3f(0.0f, 0.0f, 0.0f); // The color of the painted points
 		if (std::find(m_MouseReleaseIndices.begin(), m_MouseReleaseIndices.end(), i) != m_MouseReleaseIndices.end()) {
 			glVertex3f(m_MousePoints[i][0], m_MousePoints[i][1], m_MousePoints[i][2]);
 			if (i < m_MousePoints.size() - 1)
@@ -55,6 +55,7 @@ void MousePoints::AddReleaseIndex() {
 }
 
 bool MousePoints::IsInside(Engine::Entity entity) {
+	int numberOfPointsInsideEntity = 0;
 	std::vector<std::vector<GLfloat>> polygones = entity.GetVertices();
 	std::vector<unsigned int> indices = entity.GetIndices();
 	for (unsigned i = 0; i < indices.size(); i = i + 3) {
@@ -64,25 +65,24 @@ bool MousePoints::IsInside(Engine::Entity entity) {
 			polygone.push_back(polygones[indices[j]][1]);
 			polygone.push_back(polygones[indices[j]][2]);
 		}
-		if (!IsInsidePolygone(polygone))
-			return false;
+		numberOfPointsInsideEntity += IsInsidePolygone(polygone);
+			
 	}
-	return true;
-}
-
-bool MousePoints::IsInsidePolygone(std::vector<GLfloat> polygonePoints) {
-	std::vector<bool> insideOrNot;
-	for (unsigned i = 0; i < m_MousePoints.size(); i = i + 2)
-		insideOrNot.push_back(PointIsInsidePolygone(polygonePoints, m_MousePoints[i]));
-	int numberOfTrue = 0;
-	for (unsigned i = 0; i < insideOrNot.size(); ++i)
-		if (insideOrNot[i])
-			++numberOfTrue;
-	Engine::Logger::GetAppLogger()->debug(numberOfTrue);
-	Engine::Logger::GetAppLogger()->debug((numberOfTrue * 100) / insideOrNot.size());
-	if ((numberOfTrue * 100) / insideOrNot.size() >= 80)
+	Engine::Logger::GetAppLogger()->debug(numberOfPointsInsideEntity);
+	Engine::Logger::GetAppLogger()->debug((numberOfPointsInsideEntity * 100) / m_MousePoints.size());
+	if ((numberOfPointsInsideEntity * 100) / m_MousePoints.size() >= 80)
 		return true;
 	return false;
+}
+
+int MousePoints::IsInsidePolygone(std::vector<GLfloat> polygonePoints) {
+	int numberOfPointInsideThisPolygone = 0;
+	for (unsigned i = 0; i < m_MousePoints.size(); ++i) {
+		if (PointIsInsidePolygone(polygonePoints, m_MousePoints[i]))
+			++numberOfPointInsideThisPolygone;
+	}
+
+	return numberOfPointInsideThisPolygone;
 }
 
 bool MousePoints::PointIsInsidePolygone(std::vector<GLfloat> polygonePoints, std::vector<GLfloat> mousePoint) {
