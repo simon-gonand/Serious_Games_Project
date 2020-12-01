@@ -6,6 +6,7 @@ Application::Application() {
 	this->setEventHandling();
 	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
+	m_ModelOnScreen = false;
 	
 	//GUI
 	Engine::GUI::Init(m_Window.get());
@@ -41,11 +42,11 @@ void Application::GUIRender() {
 		MousePoints::instance().Clear();
 		for (unsigned i = 1; i < m_Entities.size(); ++i) {
 			m_Entities.erase(m_Entities.begin() + i);
-			m_Models.clear();
+			m_ModelOnScreen = false;
 		}
 	}
 	if (ImGui::Button("Display Rectangle Model")) {
-		if (m_Models.find("Rectangle") == m_Models.end()) {
+		if (!m_ModelOnScreen) {
 			GLfloat rectangleVertices[4 * 3]{
 				0.0f, 0.0f, 0.0f,	// Bottom left
 				0.3f, 0.1f, 0.0f,	// Top right
@@ -60,11 +61,11 @@ void Application::GUIRender() {
 				std::make_unique<Engine::Entity>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
 					sizeof(rectangleIndices), modelShader, false);
 			m_Entities.push_back(*rectangleModelEntity);
-			m_Models.insert(std::pair<const char*, Engine::Entity>("Rectangle", *rectangleModelEntity));
+			m_ModelOnScreen = true;
 		}
 	}
 	if (ImGui::Button("Display Triangle Model")) {
-		if (m_Models.find("Triangle") == m_Models.end()) {
+		if (!m_ModelOnScreen) {
 			GLfloat triangleVertices[3 * 3]{
 				-0.4f,  0.2f, 0.0f,
 				-0.1f,  0.2f, 0.0f,
@@ -78,7 +79,7 @@ void Application::GUIRender() {
 				std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
 					sizeof(triangleIndices), modelShader, false);
 			m_Entities.push_back(*triangleModelEntity);
-			m_Models.insert(std::pair<const char*, Engine::Entity>("Triangle", *triangleModelEntity));
+			m_ModelOnScreen = true;
 		}
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);

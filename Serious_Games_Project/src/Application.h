@@ -27,7 +27,7 @@ private:
 	std::unique_ptr<Engine::Window> m_Window;
 
 	std::vector<Engine::Entity> m_Entities;
-	std::map<const char*, Engine::Entity> m_Models;
+	bool m_ModelOnScreen;
 
 	bool m_DrawIsEnable;
 };
