@@ -94,8 +94,8 @@ bool MousePoints::AllModelIsFill(Engine::Model model) {
 	for (unsigned i = 0; i < modelVertices.size(); ++i) {
 		bool mousePointIsNear = false;
 		for (unsigned j = 0; j < m_MousePoints.size(); ++j) {
-			if (m_MousePoints[i][0] <= modelVertices[i][0] + 0.5f && m_MousePoints[i][0] >= modelVertices[i][0] - 0.5f &&
-				m_MousePoints[i][1] <= modelVertices[i][1] + 0.5f && m_MousePoints[i][1] >= modelVertices[i][1] - 0.5f) {
+			if (m_MousePoints[j][0] <= modelVertices[i][0] + 0.07f && m_MousePoints[j][0] >= modelVertices[i][0] - 0.07f &&
+				m_MousePoints[j][1] <= modelVertices[i][1] + 0.07f && m_MousePoints[j][1] >= modelVertices[i][1] - 0.07f) {
 				mousePointIsNear = true;
 				break;
 			}
