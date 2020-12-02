@@ -5,6 +5,7 @@
 #include "Engine/GUI.h"
 #include "Engine/StateHandling.h"
 #include "Engine/Entity.h"
+#include "Engine/Model.h"
 #include "MousePoints.h"
 
 #include <memory>
@@ -27,7 +28,7 @@ private:
 	std::unique_ptr<Engine::Window> m_Window;
 
 	std::vector<Engine::Entity> m_Entities;
-	bool m_ModelOnScreen;
+	std::unique_ptr<Engine::Model> m_Model;
 
 	bool m_DrawIsEnable;
 };

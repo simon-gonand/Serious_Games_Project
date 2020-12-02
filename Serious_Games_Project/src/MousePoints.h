@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GL/glew.h"
-#include "Engine/Entity.h"
+#include "Engine/Model.h"
 #include "Engine/Logger.h"
 
 #include <vector>
@@ -23,6 +23,7 @@ private:
 	static const double MIN;
 	static const double MAX;
 
+	bool AllModelIsFill(Engine::Model model);
 	/* Check if the points are inside a polygon. Those functions are inspired by this algorithm 
 	   https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/ */
 	int IsInsidePolygone(std::vector<GLfloat> polygonePoints);
@@ -46,8 +47,9 @@ public:
 
 	void AddMousePoint(std::vector<GLfloat> point);
 	void AddReleaseIndex();
+	void PopBackReleaseIndex();
 
-	bool IsInside(Engine::Entity entity);
+	bool IsInside(Engine::Model model);
 	bool IsEmpty();
 };
 

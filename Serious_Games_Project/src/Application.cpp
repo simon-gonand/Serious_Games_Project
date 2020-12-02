@@ -6,7 +6,6 @@ Application::Application() {
 	this->setEventHandling();
 	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
-	m_ModelOnScreen = false;
 	
 	//GUI
 	Engine::GUI::Init(m_Window.get());
@@ -37,16 +36,16 @@ Application::~Application() {
 }
 
 void Application::GUIRender() {
-	ImGui::Begin("Test");
+	ImGui::Begin("Manage on screen");
 	if (ImGui::Button("Clear Screen")) {
 		MousePoints::instance().Clear();
 		for (unsigned i = 1; i < m_Entities.size(); ++i) {
 			m_Entities.erase(m_Entities.begin() + i);
-			m_ModelOnScreen = false;
+			m_Model.reset();
 		}
 	}
 	if (ImGui::Button("Display Rectangle Model")) {
-		if (!m_ModelOnScreen) {
+		if (m_Model == nullptr) {
 			GLfloat rectangleVertices[4 * 3]{
 				0.0f, 0.0f, 0.0f,	// Bottom left
 				0.3f, 0.1f, 0.0f,	// Top right
@@ -57,15 +56,13 @@ void Application::GUIRender() {
 			unsigned int rectangleIndices[6] = { 0, 2, 1, 1, 3, 0 };
 
 			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-			std::unique_ptr<Engine::Entity> rectangleModelEntity =
-				std::make_unique<Engine::Entity>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
-					sizeof(rectangleIndices), modelShader, false);
-			m_Entities.push_back(*rectangleModelEntity);
-			m_ModelOnScreen = true;
+			m_Model = std::make_unique<Engine::Model>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
+					sizeof(rectangleIndices), modelShader, false, 0);
+			m_Entities.push_back(*m_Model);
 		}
 	}
 	if (ImGui::Button("Display Triangle Model")) {
-		if (!m_ModelOnScreen) {
+		if (m_Model == nullptr) {
 			GLfloat triangleVertices[3 * 3]{
 				-0.4f,  0.2f, 0.0f,
 				-0.1f,  0.2f, 0.0f,
@@ -75,14 +72,22 @@ void Application::GUIRender() {
 			unsigned int triangleIndices[3] = { 0, 1, 2 };
 
 			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-			std::unique_ptr<Engine::Entity> triangleModelEntity =
-				std::make_unique<Engine::Entity>(triangleVertices, triangleIndices, sizeof(triangleVertices),
-					sizeof(triangleIndices), modelShader, false);
-			m_Entities.push_back(*triangleModelEntity);
-			m_ModelOnScreen = true;
+			m_Model = std::make_unique<Engine::Model>(triangleVertices, triangleIndices, sizeof(triangleVertices),
+					sizeof(triangleIndices), modelShader, false, 0);
+			m_Entities.push_back(*m_Model);
 		}
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
+	ImGui::End();
+	ImGui::Begin("Player buttons");
+	if (ImGui::Button("Finish")) {
+		if (!MousePoints::instance().IsEmpty()) {
+			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
+			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
+		}
+		else
+			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
+	}
 	ImGui::End();
 }
 
@@ -94,13 +99,11 @@ void Application::Run() {
 
 		Engine::GUI::CreateNewFrame();
 
-		MousePoints& instance = MousePoints::instance();
 		for (unsigned i = 0; i < m_Entities.size(); ++i) {
 			m_Entities[i].Draw();
-			if (i != 0 && !instance.IsEmpty())
-				std::cout << instance.IsInside(m_Entities[i]) << std::endl;
 		}
-		instance.Display();
+
+		MousePoints::instance().Display();
 
 		GUIRender();
 
@@ -116,7 +119,8 @@ void Application::MouseButtonCallback(GLFWwindow* window, int button, int action
 		MousePoints::instance().SetMouseButtonIsPressed(true);
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		MousePoints::instance().SetMouseButtonIsPressed(false);
-		MousePoints::instance().AddReleaseIndex();
+		if (m_DrawIsEnable && m_Model != nullptr)
+			MousePoints::instance().AddReleaseIndex();
 	}
 }
 

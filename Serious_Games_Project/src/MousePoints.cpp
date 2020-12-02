@@ -54,10 +54,26 @@ void MousePoints::AddReleaseIndex() {
 	m_MouseReleaseIndices.push_back(m_MousePoints.size());
 }
 
-bool MousePoints::IsInside(Engine::Entity entity) {
+void MousePoints::PopBackReleaseIndex() {
+	m_MouseReleaseIndices.pop_back();
+}
+
+bool MousePoints::IsInside(Engine::Model model) {
 	int numberOfPointsInsideEntity = 0;
-	std::vector<std::vector<GLfloat>> polygones = entity.GetVertices();
-	std::vector<unsigned int> indices = entity.GetIndices();
+	std::vector<std::vector<GLfloat>> polygones = model.GetVertices();
+	std::vector<unsigned int> indices = model.GetIndices();
+
+	// Release button mouse at the beginning to select "Enable Draw" => entity.GetNumberOfReleasePossible() + 1
+	if (model.GetNumberOfReleasePossible() + 1 < m_MouseReleaseIndices.size()) {
+		Engine::Logger::GetAppLogger()->info("You release the left button too many time");
+		return false;
+	}
+
+	if (!AllModelIsFill(model)) {
+		Engine::Logger::GetAppLogger()->info("You didn't fill the model entirely");
+		return false;
+	}
+
 	for (unsigned i = 0; i < indices.size(); i = i + 3) {
 		std::vector<GLfloat> polygone;
 		for (unsigned j = i; j < i + 3; ++j) {
@@ -68,11 +84,26 @@ bool MousePoints::IsInside(Engine::Entity entity) {
 		numberOfPointsInsideEntity += IsInsidePolygone(polygone);
 			
 	}
-	Engine::Logger::GetAppLogger()->debug(numberOfPointsInsideEntity);
-	Engine::Logger::GetAppLogger()->debug((numberOfPointsInsideEntity * 100) / m_MousePoints.size());
-	if ((numberOfPointsInsideEntity * 100) / m_MousePoints.size() >= 80)
+	if ((numberOfPointsInsideEntity * 100) / m_MousePoints.size() >= 95)
 		return true;
 	return false;
+}
+
+bool MousePoints::AllModelIsFill(Engine::Model model) {
+	std::vector<std::vector<GLfloat>> modelVertices = model.GetVertices();
+	for (unsigned i = 0; i < modelVertices.size(); ++i) {
+		bool mousePointIsNear = false;
+		for (unsigned j = 0; j < m_MousePoints.size(); ++j) {
+			if (m_MousePoints[i][0] <= modelVertices[i][0] + 0.5f && m_MousePoints[i][0] >= modelVertices[i][0] - 0.5f &&
+				m_MousePoints[i][1] <= modelVertices[i][1] + 0.5f && m_MousePoints[i][1] >= modelVertices[i][1] - 0.5f) {
+				mousePointIsNear = true;
+				break;
+			}
+		}
+		if (!mousePointIsNear)
+			return false;
+	}
+	return true;
 }
 
 int MousePoints::IsInsidePolygone(std::vector<GLfloat> polygonePoints) {
@@ -97,7 +128,6 @@ bool MousePoints::PointIsInsidePolygone(std::vector<GLfloat> polygonePoints, std
 	
 		++count;
 
-	//Engine::Logger::GetAppLogger()->debug(count);
 	if (count % 2 == 0)
 		return false;
 	return true;
