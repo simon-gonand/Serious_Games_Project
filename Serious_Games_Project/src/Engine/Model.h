@@ -12,6 +12,7 @@ namespace Engine {
 	public:
 		Model(GLfloat* vertices, unsigned int* indices, size_t vertexSize, size_t indexSize,
 			Shader* shader, bool isTextured, int numberOfRelease);
+		~Model();
 
 		int GetNumberOfReleasePossible() const;
 	};

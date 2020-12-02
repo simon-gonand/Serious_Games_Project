@@ -8,5 +8,7 @@ namespace Engine {
 	{
 	}
 
+	Model::~Model(){}
+
 	int Model::GetNumberOfReleasePossible() const { return m_NumberOfReleasePossible; }
 }
