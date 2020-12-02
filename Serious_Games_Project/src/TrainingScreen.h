@@ -8,6 +8,7 @@
 #include "Engine/Entity.h"
 #include "Engine/Model.h"
 #include "MousePoints.h"
+#include "DuelScreen.h"
 
 #include <memory>
 #include <vector>

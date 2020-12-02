@@ -26,8 +26,6 @@ TrainingScreen::TrainingScreen() {
 
 TrainingScreen::~TrainingScreen() {
 	this->removeEventHandling();
-	Engine::GUI::Destroy();
-	m_Window.reset(nullptr);
 }
 
 void TrainingScreen::GUIRender() {
@@ -71,6 +69,11 @@ void TrainingScreen::GUIRender() {
 					sizeof(triangleIndices), modelShader, false, 0);
 			m_Entities.push_back(*m_Model);
 		}
+	}
+	if (ImGui::Button("Duel Screen")) {
+		delete this;
+		DuelScreen* duelScreen = new DuelScreen();
+		duelScreen->Run();
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
 	ImGui::End();
