@@ -1,14 +1,9 @@
 #include "Application.h"
 
 Application::Application() {
-	Engine::WindowProps props = Engine::WindowProps("Window", 960, 540);
-	m_Window = std::unique_ptr<Engine::Window> (Engine::Window::Create(props));
 	this->setEventHandling();
 	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
-	
-	//GUI
-	Engine::GUI::Init(m_Window.get());
 
 	GLfloat backgroundVertices[4 * 5]{
 		  // Positions			 // Textures

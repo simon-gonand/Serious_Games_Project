@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Engine/WindowManager.h"
+#include "Engine/StateHandling.h"
 #include "Engine/Window.h"
 #include "Engine/Shader.h"
 #include "Engine/GUI.h"
-#include "Engine/StateHandling.h"
 #include "Engine/Entity.h"
 #include "Engine/Model.h"
 #include "MousePoints.h"
@@ -12,7 +13,7 @@
 #include <vector>
 #include <map>
 
-class Application: public StateHandling
+class Application: public Engine::WindowManager, public Engine::StateHandling
 {
 public:
 	Application();
@@ -25,8 +26,6 @@ public:
 	virtual void MouseCallback(GLFWwindow* window, double xpos, double ypos) override;
 
 private:
-	std::unique_ptr<Engine::Window> m_Window;
-
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
 

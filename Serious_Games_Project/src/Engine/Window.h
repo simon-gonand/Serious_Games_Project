@@ -5,6 +5,7 @@
 #include "GLFW/glfw3.h"
 
 #include <string>
+#include <iostream>
 
 #include "StateHandling.h"
 
@@ -16,8 +17,8 @@ namespace Engine {
 		unsigned int Height;
 
 		WindowProps(const std::string& title = "Window",
-			unsigned int width = 960,
-			unsigned int height = 540)
+			size_t width = 960,
+			size_t height = 540)
 			: Title(title), Width(width), Height(height) {}
 	};
 
@@ -32,8 +33,6 @@ namespace Engine {
 		unsigned int GetWidth() const;
 		unsigned int GetHeight() const;
 		GLFWwindow* GetWindow() const;
-
-		static Window* Create(const WindowProps& props);
 
 	private:
 		GLFWwindow* m_Window;

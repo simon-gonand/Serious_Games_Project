@@ -44,16 +44,10 @@ namespace Engine {
 		glfwSetScrollCallback(m_Window, StateHandling::ScrollCallback_dispatch);*/
 		glfwSetCursorPosCallback(m_Window, StateHandling::MouseCallback_dispatch);
 		glfwSetMouseButtonCallback(m_Window, StateHandling::MouseButtonCallback_dispatch);
-
-		Engine::Logger::GetSystemLogger()->info("Window \"{}\" Width: {}, Height: {} is set", props.Title, props.Width, props.Height);
 	}
 
 	Window::~Window() {
 		glfwDestroyWindow(m_Window);
-	}
-
-	Window* Window::Create(const WindowProps& props) {
-		return new Window(props);
 	}
 
 	void Window::OnUpdate() {
