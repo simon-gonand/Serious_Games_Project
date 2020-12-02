@@ -1,4 +1,5 @@
 #include "StateHandling.h"
 
-
-StateHandling* StateHandling::event_handling_instance;
+namespace Engine {
+	StateHandling* StateHandling::event_handling_instance;
+}
