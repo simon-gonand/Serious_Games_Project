@@ -1,10 +1,10 @@
 #include "Engine/Logger.h"
-#include "Application.h"
+#include "TrainingScreen.h"
 
 int main() {
 	Engine::Logger::Init();
 
-	Application* sandbox = new Application();
+	TrainingScreen* sandbox = new TrainingScreen();
 	sandbox->Run();
 	delete sandbox;
 	return 0;

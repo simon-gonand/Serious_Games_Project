@@ -88,7 +88,7 @@
     <ClCompile Include="src\Engine\Entity.cpp" />
     <ClCompile Include="src\Engine\GUI.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\TrainingScreen.cpp" />
     <ClCompile Include="src\Engine\Logger.cpp" />
     <ClCompile Include="src\Engine\StateHandling.cpp" />
     <ClCompile Include="src\Engine\Window.cpp" />
@@ -107,7 +107,7 @@
     <ClInclude Include="src\Engine\Entity.h" />
     <ClInclude Include="src\Engine\GUI.h" />
     <ClInclude Include="src\Engine\Shader.h" />
-    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\TrainingScreen.h" />
     <ClInclude Include="src\Engine\Logger.h" />
     <ClInclude Include="src\Engine\StateHandling.h" />
     <ClInclude Include="src\Engine\Window.h" />

@@ -1,6 +1,6 @@
-#include "Application.h"
+#include "TrainingScreen.h"
 
-Application::Application() {
+TrainingScreen::TrainingScreen() {
 	this->setEventHandling();
 	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
@@ -24,13 +24,13 @@ Application::Application() {
 	m_Entities.push_back(*backgroundEntity);
 }
 
-Application::~Application() {
+TrainingScreen::~TrainingScreen() {
 	this->removeEventHandling();
 	Engine::GUI::Destroy();
 	m_Window.reset(nullptr);
 }
 
-void Application::GUIRender() {
+void TrainingScreen::GUIRender() {
 	ImGui::Begin("Manage on screen");
 	if (ImGui::Button("Clear Screen")) {
 		MousePoints::instance().Clear();
@@ -86,7 +86,7 @@ void Application::GUIRender() {
 	ImGui::End();
 }
 
-void Application::Run() {
+void TrainingScreen::Run() {
 	while (!glfwWindowShouldClose(m_Window->GetWindow())) {
 		// clear the screen and set the background color to grey
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -109,7 +109,7 @@ void Application::Run() {
 }
 
 // Events
-void Application::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+void TrainingScreen::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		MousePoints::instance().SetMouseButtonIsPressed(true);
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
@@ -119,7 +119,7 @@ void Application::MouseButtonCallback(GLFWwindow* window, int button, int action
 	}
 }
 
-void Application::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
+void TrainingScreen::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
 	if (MousePoints::instance().GetMouseButtonIsPressed() && m_DrawIsEnable) {
 		std::vector<GLfloat> pos(3);
 		double xpos, ypos;

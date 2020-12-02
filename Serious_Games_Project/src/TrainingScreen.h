@@ -13,11 +13,11 @@
 #include <vector>
 #include <map>
 
-class Application: public Engine::WindowManager, public Engine::StateHandling
+class TrainingScreen: public Engine::WindowManager, public Engine::StateHandling
 {
 public:
-	Application();
-	virtual ~Application();
+	TrainingScreen();
+	virtual ~TrainingScreen();
 
 	void Run();
 	void GUIRender();
