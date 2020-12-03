@@ -195,7 +195,7 @@ namespace Engine {
 
 	void Shader::LoadTexture(const char* texSrcFile) const {
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(texSrcFile, &width, &height, &nrChannels, 0);
+		unsigned char* data = stbi_load(texSrcFile, &width, &height, &nrChannels, STBI_rgb);
 
 		if (data)
 		{
