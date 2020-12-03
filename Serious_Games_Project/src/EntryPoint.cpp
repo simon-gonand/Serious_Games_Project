@@ -6,6 +6,5 @@ int main() {
 
 	TrainingScreen* sandbox = new TrainingScreen();
 	sandbox->Run();
-	delete sandbox;
 	return 0;
 }

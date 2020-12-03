@@ -16,7 +16,7 @@ TrainingScreen::TrainingScreen() {
 	unsigned int backgroundIndices[6] = { 0, 1, 2, 0, 1, 3 };
 
 	Engine::Shader* backgroundShader = 
-		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/background.jpg");
+		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/ClassRoomBackground.jpg");
 
 	std::unique_ptr<Engine::Entity> backgroundEntity = 
 		std::make_unique<Engine::Entity> (backgroundVertices, backgroundIndices, sizeof(backgroundVertices),
@@ -74,6 +74,7 @@ void TrainingScreen::GUIRender() {
 		delete this;
 		DuelScreen* duelScreen = new DuelScreen();
 		duelScreen->Run();
+		return;
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
 	ImGui::End();

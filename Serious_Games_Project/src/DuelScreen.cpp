@@ -13,14 +13,14 @@ DuelScreen::DuelScreen() {
 	   1.0f, -1.0f, 0.0f,		 1.0f, 0.0f  // Bottom right
 	};
 
-	unsigned int backgroundIndices[6] = { 0, 1, 2, 0, 1, 3 };
+	unsigned int rectangleIndices[6] = { 0, 1, 2, 0, 1, 3 };
 
 	Engine::Shader* backgroundShader =
-		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/background.jpg");
+		new Engine::Shader("src/Shaders/Background.vert", "src/Shaders/Background.frag", "res/DuelRoomBackground.jpg");
 
 	std::unique_ptr<Engine::Entity> backgroundEntity =
-		std::make_unique<Engine::Entity>(backgroundVertices, backgroundIndices, sizeof(backgroundVertices),
-			sizeof(backgroundIndices), backgroundShader, true);
+		std::make_unique<Engine::Entity>(backgroundVertices, rectangleIndices, sizeof(backgroundVertices),
+			sizeof(rectangleIndices), backgroundShader, true);
 	m_Entities.push_back(*backgroundEntity);
 }
 
