@@ -80,8 +80,8 @@ void TrainingScreen::GUIRender() {
 	ImGui::End();
 	ImGui::Begin("Player buttons");
 	if (ImGui::Button("Finish")) {
+		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty() && m_Model != nullptr) {
-			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
 		}
 		else if (m_Model == nullptr)
