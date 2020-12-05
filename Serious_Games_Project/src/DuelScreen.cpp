@@ -2,8 +2,7 @@
 
 DuelScreen::DuelScreen() {
 	this->setEventHandling();
-	//MousePoints::instance().initialise();
-	//m_DrawIsEnable = false;
+	MousePoints::instance().initialise();
 
 	GLfloat backgroundVertices[4 * 5]{
 		// Positions			 // Textures
@@ -41,7 +40,7 @@ void DuelScreen::Run() {
 			m_Entities[i].Draw();
 		}
 
-		//MousePoints::instance().Display();
+		MousePoints::instance().Display();
 
 		GUIRender();
 
@@ -52,5 +51,37 @@ void DuelScreen::Run() {
 }
 
 void DuelScreen::GUIRender(){
-	
+	ImGui::Begin("Player buttons");
+	if (ImGui::Button("Finish")) {
+		if (!MousePoints::instance().IsEmpty()) {
+			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
+			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
+		}
+		else
+			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
+	}
+	ImGui::End();
+}
+
+// Events
+void DuelScreen::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		MousePoints::instance().SetMouseButtonIsPressed(true);
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		MousePoints::instance().SetMouseButtonIsPressed(false);
+		if (m_Model != nullptr)
+			MousePoints::instance().AddReleaseIndex();
+	}
+}
+
+void DuelScreen::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
+	if (MousePoints::instance().GetMouseButtonIsPressed()) {
+		std::vector<GLfloat> pos(3);
+		double xpos, ypos;
+		glfwGetCursorPos(m_Window->GetWindow(), &xpos, &ypos);
+		pos[0] = xpos / 480 - 1;
+		pos[1] = (ypos / 270 - 1) * -1;
+		pos[2] = 0.0f;
+		MousePoints::instance().AddMousePoint(pos);
+	}
 }

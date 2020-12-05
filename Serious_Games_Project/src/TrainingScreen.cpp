@@ -80,10 +80,12 @@ void TrainingScreen::GUIRender() {
 	ImGui::End();
 	ImGui::Begin("Player buttons");
 	if (ImGui::Button("Finish")) {
-		if (!MousePoints::instance().IsEmpty()) {
+		if (!MousePoints::instance().IsEmpty() && m_Model != nullptr) {
 			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
 		}
+		else if (m_Model == nullptr)
+			Engine::Logger::GetAppLogger()->info("There's no model on the screen");
 		else
 			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
 	}
