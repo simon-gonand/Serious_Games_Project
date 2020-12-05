@@ -34,6 +34,22 @@ void DuelScreen::Run() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		if (m_Model == nullptr) {
+			GLfloat rectangleVertices[4 * 3]{
+				0.0f, 0.0f, 0.0f,	// Bottom left
+				0.3f, 0.1f, 0.0f,	// Top right
+				0.0f, 0.1f, 0.0f,	// Top left
+				0.3f, 0.0f, 0.0f,	// Bottom right
+			};
+
+			unsigned int rectangleIndices[6] = { 0, 2, 1, 1, 3, 0 };
+
+			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+			m_Model = std::make_unique<Engine::Model>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
+				sizeof(rectangleIndices), modelShader, false, 0);
+			m_Entities.push_back(*m_Model);
+		}
+
 		Engine::GUI::CreateNewFrame();
 
 		for (unsigned i = 0; i < m_Entities.size(); ++i) {
@@ -53,9 +69,20 @@ void DuelScreen::Run() {
 void DuelScreen::GUIRender(){
 	ImGui::Begin("Player buttons");
 	if (ImGui::Button("Finish")) {
+		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty()) {
-			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
-			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
+			bool validMousePoints = MousePoints::instance().IsInside(*m_Model);
+			Engine::Logger::GetAppLogger()->debug(validMousePoints);
+			if (validMousePoints) {
+				m_Model.reset(nullptr);
+				m_Entities.pop_back();
+				// Life managment
+			}
+			else {
+				Engine::Logger::GetAppLogger()->info("Try again!");
+				// Life managment
+			}
+			MousePoints::instance().Clear();
 		}
 		else
 			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
