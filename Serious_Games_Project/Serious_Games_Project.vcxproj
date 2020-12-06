@@ -85,6 +85,8 @@
   <ItemGroup>
     <ClCompile Include="src\DuelScreen.cpp" />
     <ClCompile Include="src\Engine\Model.cpp" />
+    <ClCompile Include="src\ModelsResources.cpp" />
+    <ClCompile Include="src\ModelsResources.h" />
     <ClCompile Include="src\MousePoints.cpp" />
     <ClCompile Include="src\Engine\Entity.cpp" />
     <ClCompile Include="src\Engine\GUI.cpp" />

@@ -5,8 +5,10 @@
 #include "Engine/Entity.h"
 #include "MousePoints.h"
 #include "Wizard.h"
+#include "ModelsResources.h"
 
 #include <vector>
+#include <time.h>
 
 class DuelScreen : public Engine::WindowManager, public Engine::StateHandling
 {

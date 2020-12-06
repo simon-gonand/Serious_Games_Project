@@ -3,6 +3,7 @@
 DuelScreen::DuelScreen() {
 	this->setEventHandling();
 	MousePoints::instance().initialise();
+	ModelsResources::Initialise();
 
 	GLfloat backgroundVertices[4 * 5]{
 		// Positions			 // Textures
@@ -38,18 +39,16 @@ void DuelScreen::Run() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		if (m_Model == nullptr) {
-			GLfloat rectangleVertices[4 * 3]{
-				0.0f, 0.0f, 0.0f,	// Bottom left
-				0.3f, 0.1f, 0.0f,	// Top right
-				0.0f, 0.1f, 0.0f,	// Top left
-				0.3f, 0.0f, 0.0f,	// Bottom right
-			};
-
-			unsigned int rectangleIndices[6] = { 0, 2, 1, 1, 3, 0 };
+			std::map<const char*, float*> models = ModelsResources::GetModels();
+			auto it = models.begin();
+			srand(time(NULL));
+			int randomIndex = (rand() % models.size());
+			std::advance(it, randomIndex);
 
 			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-			m_Model = std::make_unique<Engine::Model>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
-				sizeof(rectangleIndices), modelShader, false, 0);
+			m_Model = std::make_unique<Engine::Model>(it->second, ModelsResources::GetModelIndices()[randomIndex], 
+				ModelsResources::GetModelSize(randomIndex), ModelsResources::GetModelIndicesSize(randomIndex), 
+				modelShader, false, ModelsResources::GetModelReleaseNb()[randomIndex]);
 			m_Entities.push_back(*m_Model);
 		}
 
