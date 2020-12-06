@@ -6,6 +6,7 @@
 #include "MousePoints.h"
 #include "Wizard.h"
 #include "ModelsResources.h"
+#include "TrainingScreen.h"
 
 #include <vector>
 #include <time.h>

@@ -29,7 +29,6 @@ DuelScreen::DuelScreen() {
 
 DuelScreen::~DuelScreen(){
 	this->removeEventHandling();
-	Engine::GUI::Destroy();
 }
 
 void DuelScreen::Run() {
@@ -106,6 +105,12 @@ void DuelScreen::GUIRender(){
 		}
 		else
 			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
+	}
+	if (ImGui::Button("Quit")) {
+		delete this;
+		TrainingScreen* trainingScreen = new TrainingScreen();
+		trainingScreen->Run();
+		return;
 	}
 	ImGui::End();
 }
