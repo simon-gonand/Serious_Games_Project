@@ -4,6 +4,7 @@
 #include "Engine/StateHandling.h"
 #include "Engine/Entity.h"
 #include "MousePoints.h"
+#include "Wizard.h"
 
 #include <vector>
 
@@ -22,5 +23,8 @@ public:
 private:
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
+
+	Wizard* m_Player;
+	Wizard* m_Enemy;
 };
 

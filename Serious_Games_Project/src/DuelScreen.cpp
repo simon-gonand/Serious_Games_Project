@@ -21,6 +21,9 @@ DuelScreen::DuelScreen() {
 		std::make_unique<Engine::Entity>(backgroundVertices, rectangleIndices, sizeof(backgroundVertices),
 			sizeof(rectangleIndices), backgroundShader, true);
 	m_Entities.push_back(*backgroundEntity);
+
+	m_Player = new Wizard();
+	m_Enemy = new Wizard();
 }
 
 DuelScreen::~DuelScreen(){
@@ -76,11 +79,29 @@ void DuelScreen::GUIRender(){
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
 				m_Entities.pop_back();
-				// Life managment
+				m_Enemy->ReduceLife(20);
+				Engine::Logger::GetAppLogger()->info("Yes ! You hit your opponent and he lost 20 HP");
+				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
+				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
+				if (m_Enemy->GetLife() <= 0) {
+					Engine::Logger::GetAppLogger()->info("You beat the wizard");
+					// Message if he wants to play another battle
+					delete m_Enemy;
+					m_Enemy = new Wizard();
+					m_Player->ResetLife();
+				}
 			}
 			else {
-				Engine::Logger::GetAppLogger()->info("Try again!");
-				// Life managment
+				m_Player->ReduceLife(20);
+				Engine::Logger::GetAppLogger()->info("Ouch ! You lost 20 HP");
+				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
+				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
+				if (m_Player->GetLife() <= 0) {
+					Engine::Logger::GetAppLogger()->info("You have been beaten by the wizard");
+					// Play again ?
+					m_Enemy->ResetLife();
+					m_Player->ResetLife();
+				}
 			}
 			MousePoints::instance().Clear();
 		}

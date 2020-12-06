@@ -30,6 +30,8 @@ private:
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
 
+
+
 	bool m_DrawIsEnable;
 };
 

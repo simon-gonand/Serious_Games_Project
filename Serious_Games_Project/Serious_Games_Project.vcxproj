@@ -101,6 +101,7 @@
     <ClCompile Include="vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Engine\WindowManager.cpp" />
+    <ClCompile Include="src\Wizard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DuelScreen.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="vendor\stb_image\stb_image.h" />
     <ClInclude Include="src\Engine\WindowManager.h" />
+    <ClInclude Include="src\Wizard.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\Background.frag" />
