@@ -68,7 +68,10 @@ void DuelScreen::Run() {
 }
 
 void DuelScreen::GUIRender(){
-	ImGui::Begin("Player buttons");
+	ImGui::Begin("Player buttons", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove);
+	ImFont* currentFont = ImGui::GetFont();
+	currentFont->Scale = 1.3;
+	ImGui::PushFont(currentFont);
 	bool playerLoose = false;
 	if (ImGui::Button("Finish")) {
 		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
@@ -78,7 +81,7 @@ void DuelScreen::GUIRender(){
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
 				m_Entities.pop_back();
-				m_Enemy->ReduceLife(100);
+				m_Enemy->ReduceLife(20);
 				Engine::Logger::GetAppLogger()->info("Yes ! You hit your opponent and he lost 20 HP");
 				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
 				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
@@ -141,6 +144,7 @@ void DuelScreen::GUIRender(){
 		trainingScreen->Run();
 		return;
 	}
+	ImGui::PopFont();
 	ImGui::End();
 }
 

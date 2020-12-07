@@ -30,6 +30,9 @@ TrainingScreen::~TrainingScreen() {
 
 void TrainingScreen::GUIRender() {
 	ImGui::Begin("Manage on screen");
+	ImFont* currentFont = ImGui::GetFont();
+	currentFont->Scale = 1.3;
+	ImGui::PushFont(currentFont);
 	if (ImGui::Button("Clear Screen")) {
 		MousePoints::instance().Clear();
 		for (unsigned i = 1; i < m_Entities.size(); ++i) {
@@ -78,8 +81,11 @@ void TrainingScreen::GUIRender() {
 		return;
 	}
 	ImGui::Checkbox("Enable Draw", &m_DrawIsEnable);
+	ImGui::PopFont();
 	ImGui::End();
-	ImGui::Begin("Player buttons");
+
+	ImGui::Begin("Player buttons", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove);
+	ImGui::PushFont(currentFont);
 	if (ImGui::Button("Finish")) {
 		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty() && m_Model != nullptr) {
@@ -90,6 +96,7 @@ void TrainingScreen::GUIRender() {
 		else
 			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
 	}
+	ImGui::PopFont();
 	ImGui::End();
 }
 
