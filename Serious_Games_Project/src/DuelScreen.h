@@ -29,5 +29,10 @@ private:
 
 	Wizard* m_Player;
 	Wizard* m_Enemy;
+
+	bool gui_PlayerLoose;
+	bool gui_PlayerHit;
+	bool gui_WizardHit;
+	bool gui_NotDraw;
 };
 

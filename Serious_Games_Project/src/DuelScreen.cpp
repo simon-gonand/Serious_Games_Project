@@ -5,6 +5,11 @@ DuelScreen::DuelScreen() {
 	MousePoints::instance().initialise();
 	ModelsResources::Initialise();
 
+	gui_PlayerLoose = false;
+	gui_PlayerHit = false;
+	gui_WizardHit = false;
+	gui_NotDraw = false;
+
 	GLfloat backgroundVertices[4 * 5]{
 		// Positions			 // Textures
 	  -1.0f, -1.0f, 0.0f,		 0.0f, 0.0f, // Bottom left
@@ -72,42 +77,41 @@ void DuelScreen::GUIRender(){
 	ImFont* currentFont = ImGui::GetFont();
 	currentFont->Scale = 1.3;
 	ImGui::PushFont(currentFont);
-	bool playerLoose = false;
 	if (ImGui::Button("Finish")) {
-		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty()) {
+			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			bool validMousePoints = MousePoints::instance().IsInside(*m_Model);
 			Engine::Logger::GetAppLogger()->debug(validMousePoints);
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
 				m_Entities.pop_back();
 				m_Enemy->ReduceLife(20);
-				Engine::Logger::GetAppLogger()->info("Yes ! You hit your opponent and he lost 20 HP");
+				gui_PlayerHit = true;
+				gui_WizardHit = false;
 				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
 				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Enemy->GetLife() <= 0) {
-					playerLoose = false;
-					Engine::Logger::GetAppLogger()->info("You beat the wizard");
 					ImGui::OpenPopup("Play Again?");
 				}
 			}
 			else {
 				m_Player->ReduceLife(20);
-				Engine::Logger::GetAppLogger()->info("Ouch ! You lost 20 HP");
+				gui_WizardHit = true;
+				gui_PlayerHit = false;
 				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
 				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Player->GetLife() <= 0) {
-					playerLoose = true;
+					gui_PlayerLoose = true;
 					ImGui::OpenPopup("Play Again?");
 				}
 			}
 			MousePoints::instance().Clear();
 		}
 		else
-			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
+			gui_NotDraw = MousePoints::instance().IsEmpty() ? true : false;
 	}
 	if (ImGui::BeginPopupModal("Play Again?", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove)) {
-		if (playerLoose) {
+		if (gui_PlayerLoose) {
 			ImGui::Text("You have been beaten by the wizard");
 			ImGui::Text("Do you want to try again ?");
 		}
@@ -116,7 +120,7 @@ void DuelScreen::GUIRender(){
 			ImGui::Text("Do you want to play again ?");
 		}
 		if (ImGui::Button("Yes")) {
-			if (playerLoose) {
+			if (gui_PlayerLoose) {
 				delete m_Enemy;
 				m_Enemy = new Wizard();
 			}
@@ -146,6 +150,22 @@ void DuelScreen::GUIRender(){
 	}
 	ImGui::PopFont();
 	ImGui::End();
+
+	if (gui_PlayerHit || gui_WizardHit || gui_NotDraw) {
+		ImGui::SetNextWindowPos(ImVec2(m_Window->GetWidth() * 0.5f, m_Window->GetHeight() * 0.1f), 
+			ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::Begin(" ", nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+		ImGui::PushFont(currentFont);
+		if (gui_PlayerHit)
+			ImGui::Text("Yes ! You hit your opponent and he lost 20 HP");
+		else if (gui_WizardHit)
+			ImGui::Text("Ouch ! You lost 20 HP");
+		else if (gui_NotDraw)
+			ImGui::Text("You didn't draw anything !");
+		ImGui::PopFont();
+		ImGui::End();
+	}
 }
 
 // Events

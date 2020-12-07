@@ -30,8 +30,11 @@ private:
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
 
-
-
 	bool m_DrawIsEnable;
+
+	bool gui_Pass;
+	bool gui_NotPass;
+	bool gui_NotDraw;
+	bool gui_NoModel;
 };
 

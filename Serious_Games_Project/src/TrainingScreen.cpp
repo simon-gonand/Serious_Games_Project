@@ -5,6 +5,11 @@ TrainingScreen::TrainingScreen() {
 	MousePoints::instance().initialise();
 	m_DrawIsEnable = false;
 
+	gui_Pass = false;
+	gui_NotPass = false;
+	gui_NoModel = false;
+	gui_NotDraw = false;
+
 	GLfloat backgroundVertices[4 * 5]{
 		  // Positions			 // Textures
 		-1.0f, -1.0f, 0.0f,		 0.0f, 0.0f, // Bottom left
@@ -87,17 +92,46 @@ void TrainingScreen::GUIRender() {
 	ImGui::Begin("Player buttons", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove);
 	ImGui::PushFont(currentFont);
 	if (ImGui::Button("Finish")) {
-		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty() && m_Model != nullptr) {
-			Engine::Logger::GetAppLogger()->info(MousePoints::instance().IsInside(*m_Model));
+			if (MousePoints::instance().IsInside(*m_Model)) {
+				gui_Pass = true;
+				gui_NotPass = false;
+			}
+			else {
+				gui_NotPass = true;
+				gui_Pass = false;
+			}
+			gui_NotDraw = false;
+			gui_NoModel = false;
 		}
-		else if (m_Model == nullptr)
-			Engine::Logger::GetAppLogger()->info("There's no model on the screen");
-		else
-			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
+		else {
+			gui_NotDraw = MousePoints::instance().IsEmpty() ? true : false;
+			gui_NoModel = m_Model == nullptr ? true : false;
+		}
+		
 	}
 	ImGui::PopFont();
 	ImGui::End();
+
+	if (gui_Pass || gui_NotPass || gui_NoModel || gui_NotDraw) {
+		ImGui::SetNextWindowPos(ImVec2(m_Window->GetWidth() * 0.5f, m_Window->GetHeight() * 0.1f),
+			ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::Begin(" ", nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+		ImGui::PushFont(currentFont);
+		if (gui_Pass)
+			ImGui::Text("Congratulations ! You learn a new sign !");
+		else if (gui_NotPass)
+			ImGui::Text("Sorry ! Try again !");
+		else {
+			if (gui_NoModel)
+				ImGui::Text("There's no model on screen");
+			if (gui_NotDraw)
+				ImGui::Text("You didn't draw anything");
+		}
+		ImGui::PopFont();
+		ImGui::End();
+	}
 }
 
 void TrainingScreen::Run() {
