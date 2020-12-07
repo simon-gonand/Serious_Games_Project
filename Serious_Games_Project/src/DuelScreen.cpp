@@ -69,6 +69,7 @@ void DuelScreen::Run() {
 
 void DuelScreen::GUIRender(){
 	ImGui::Begin("Player buttons");
+	bool playerLoose = false;
 	if (ImGui::Button("Finish")) {
 		MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 		if (!MousePoints::instance().IsEmpty()) {
@@ -77,16 +78,14 @@ void DuelScreen::GUIRender(){
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
 				m_Entities.pop_back();
-				m_Enemy->ReduceLife(20);
+				m_Enemy->ReduceLife(100);
 				Engine::Logger::GetAppLogger()->info("Yes ! You hit your opponent and he lost 20 HP");
 				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
 				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Enemy->GetLife() <= 0) {
+					playerLoose = false;
 					Engine::Logger::GetAppLogger()->info("You beat the wizard");
-					// Message if he wants to play another battle
-					delete m_Enemy;
-					m_Enemy = new Wizard();
-					m_Player->ResetLife();
+					ImGui::OpenPopup("Play Again?");
 				}
 			}
 			else {
@@ -95,10 +94,8 @@ void DuelScreen::GUIRender(){
 				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
 				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Player->GetLife() <= 0) {
-					Engine::Logger::GetAppLogger()->info("You have been beaten by the wizard");
-					// Play again ?
-					m_Enemy->ResetLife();
-					m_Player->ResetLife();
+					playerLoose = true;
+					ImGui::OpenPopup("Play Again?");
 				}
 			}
 			MousePoints::instance().Clear();
@@ -106,7 +103,39 @@ void DuelScreen::GUIRender(){
 		else
 			Engine::Logger::GetAppLogger()->info("You didn't draw anything");
 	}
+	if (ImGui::BeginPopupModal("Play Again?", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove)) {
+		if (playerLoose) {
+			ImGui::Text("You have been beaten by the wizard");
+			ImGui::Text("Do you want to try again ?");
+		}
+		else {
+			ImGui::Text("You beat the wizard");
+			ImGui::Text("Do you want to play again ?");
+		}
+		if (ImGui::Button("Yes")) {
+			if (playerLoose) {
+				delete m_Enemy;
+				m_Enemy = new Wizard();
+			}
+			else
+				m_Enemy->ResetLife();
+			m_Player->ResetLife();
+			ImGui::CloseCurrentPopup();
+			MousePoints::instance().Clear();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("No")) {
+			MousePoints::instance().Clear();
+			delete this;
+			TrainingScreen* trainingScreen = new TrainingScreen();
+			trainingScreen->Run();
+			ImGui::CloseCurrentPopup();
+			return;
+		}
+		ImGui::EndPopup();
+	}
 	if (ImGui::Button("Quit")) {
+		MousePoints::instance().Clear();
 		delete this;
 		TrainingScreen* trainingScreen = new TrainingScreen();
 		trainingScreen->Run();
