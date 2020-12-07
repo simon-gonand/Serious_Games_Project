@@ -71,6 +71,7 @@ void TrainingScreen::GUIRender() {
 		}
 	}
 	if (ImGui::Button("Duel Screen")) {
+		MousePoints::instance().Clear();
 		delete this;
 		DuelScreen* duelScreen = new DuelScreen();
 		duelScreen->Run();
