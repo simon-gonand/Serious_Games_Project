@@ -34,5 +34,9 @@ private:
 	bool gui_PlayerHit;
 	bool gui_WizardHit;
 	bool gui_NotDraw;
+
+	// Use the algorithm found here 
+	// https://stackoverflow.com/questions/12655123/open-gl-filling-portion-of-quadrilateral-with-color
+	void displayLife(float playerHealth, float enemyHealth);
 };
 

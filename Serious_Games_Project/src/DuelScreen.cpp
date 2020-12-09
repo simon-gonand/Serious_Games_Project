@@ -63,6 +63,7 @@ void DuelScreen::Run() {
 		}
 
 		MousePoints::instance().Display();
+		displayLife(m_Player->GetLife(), m_Enemy->GetLife());
 
 		GUIRender();
 
@@ -70,6 +71,24 @@ void DuelScreen::Run() {
 
 		m_Window->OnUpdate();
 	}
+}
+
+void DuelScreen::displayLife(float playerHealth, float enemyHealth) {
+	playerHealth /= 400;
+	enemyHealth /= 400;
+	glBegin(GL_QUADS);
+	glColor3f(1, 0, 0);
+	glVertex2f(-0.9f, 0.82f);
+	glVertex2f(-0.9f, 0.9f);
+	glVertex2f(playerHealth - 0.9f, 0.9f);
+	glVertex2f(playerHealth - 0.9f, 0.82f);
+
+	glColor3f(1, 0, 0);
+	glVertex2f(0.7f, 0.82f);
+	glVertex2f(0.7f, 0.9f);
+	glVertex2f(enemyHealth + 0.7f, 0.9f);
+	glVertex2f(enemyHealth + 0.7f, 0.82f);
+	glEnd();
 }
 
 void DuelScreen::GUIRender(){
@@ -129,6 +148,10 @@ void DuelScreen::GUIRender(){
 			m_Player->ResetLife();
 			ImGui::CloseCurrentPopup();
 			MousePoints::instance().Clear();
+			gui_PlayerLoose = false;
+			gui_PlayerHit = false;
+			gui_WizardHit = false;
+			gui_NotDraw = false;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("No")) {
@@ -151,6 +174,24 @@ void DuelScreen::GUIRender(){
 	ImGui::PopFont();
 	ImGui::End();
 
+	currentFont->Scale = 1.8f;
+	ImGui::Begin("PlayerLife", nullptr, 
+		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize |
+		ImGuiWindowFlags_NoMove);
+	ImGui::PushFont(currentFont);
+	ImGui::Text("Your Life");
+	ImGui::PopFont();
+	ImGui::End();
+
+	ImGui::Begin("EnemyLife", nullptr,
+		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize |
+		ImGuiWindowFlags_NoMove);
+	ImGui::PushFont(currentFont);
+	ImGui::Text("Enemy's Life");
+	ImGui::PopFont();
+	ImGui::End();
+
+	currentFont->Scale = 1.3f;
 	if (gui_PlayerHit || gui_WizardHit || gui_NotDraw) {
 		ImGui::SetNextWindowPos(ImVec2(m_Window->GetWidth() * 0.5f, m_Window->GetHeight() * 0.1f), 
 			ImGuiCond_Always, ImVec2(0.5f, 0.5f));
