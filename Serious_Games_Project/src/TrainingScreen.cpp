@@ -3,6 +3,7 @@
 TrainingScreen::TrainingScreen() {
 	this->setEventHandling();
 	MousePoints::instance().initialise();
+	ModelsResources::Initialise();
 	m_DrawIsEnable = false;
 
 	gui_Pass = false;
@@ -45,39 +46,25 @@ void TrainingScreen::GUIRender() {
 			m_Model.reset();
 		}
 	}
-	if (ImGui::Button("Display Rectangle Model")) {
-		if (m_Model == nullptr) {
-			GLfloat rectangleVertices[4 * 3]{
-				0.0f, 0.0f, 0.0f,	// Bottom left
-				0.3f, 0.1f, 0.0f,	// Top right
-				0.0f, 0.1f, 0.0f,	// Top left
-				0.3f, 0.0f, 0.0f,	// Bottom right
-			};
 
-			unsigned int rectangleIndices[6] = { 0, 2, 1, 1, 3, 0 };
-
-			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-			m_Model = std::make_unique<Engine::Model>(rectangleVertices, rectangleIndices, sizeof(rectangleVertices),
-					sizeof(rectangleIndices), modelShader, false, 0);
-			m_Entities.push_back(*m_Model);
+	std::map<const char*, float*> models = ModelsResources::GetModels();
+	int index = 0;
+	for (std::pair<const char*, float*> itr: models) {
+		std::string buttonName = "Display ";
+		buttonName += itr.first;
+		buttonName += " Model";
+		if (ImGui::Button(buttonName.c_str())) {
+			if (m_Model == nullptr) {
+				Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
+				m_Model = std::make_unique<Engine::Model>(itr.second, ModelsResources::GetModelIndices()[index],
+					ModelsResources::GetModelSize(index), ModelsResources::GetModelIndicesSize(index),
+					modelShader, false, ModelsResources::GetModelReleaseNb()[index]);
+				m_Entities.push_back(*m_Model);
+			}
 		}
+		++index;
 	}
-	if (ImGui::Button("Display Triangle Model")) {
-		if (m_Model == nullptr) {
-			GLfloat triangleVertices[3 * 3]{
-				-0.4f,  0.2f, 0.0f,
-				-0.1f,  0.2f, 0.0f,
-				-0.25f, 0.0f, 0.0f
-			};
 
-			unsigned int triangleIndices[3] = { 0, 1, 2 };
-
-			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
-			m_Model = std::make_unique<Engine::Model>(triangleVertices, triangleIndices, sizeof(triangleVertices),
-					sizeof(triangleIndices), modelShader, false, 0);
-			m_Entities.push_back(*m_Model);
-		}
-	}
 	if (ImGui::Button("Duel Screen")) {
 		MousePoints::instance().Clear();
 		delete this;
