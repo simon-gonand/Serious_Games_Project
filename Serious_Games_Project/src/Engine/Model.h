@@ -8,6 +8,7 @@ namespace Engine {
 	{
 	private:
 		int m_NumberOfReleasePossible;
+		float m_Opacity;
 
 	public:
 		Model(GLfloat* vertices, unsigned int* indices, size_t vertexSize, size_t indexSize,
@@ -15,6 +16,10 @@ namespace Engine {
 		~Model();
 
 		int GetNumberOfReleasePossible() const;
+		void Draw();
+
+		void ReduceOpacity();
+		void ResetOpacity();
 	};
 }
 

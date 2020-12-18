@@ -57,12 +57,12 @@ void DuelScreen::Run() {
 			m_Model = std::make_unique<Engine::Model>(it->second, ModelsResources::GetModelIndices()[randomIndex], 
 				ModelsResources::GetModelSize(randomIndex), ModelsResources::GetModelIndicesSize(randomIndex), 
 				modelShader, false, ModelsResources::GetModelReleaseNb()[randomIndex]);
-			m_Entities.push_back(*m_Model);
 		}
 
 		for (unsigned i = 0; i < m_Entities.size(); ++i) {
-			m_Entities[i].Draw();
+				m_Entities[i].Draw();
 		}
+		m_Model->Draw();
 
 		MousePoints::instance().Display();
 		displayLife(m_Player->GetLife(), m_Enemy->GetLife());
@@ -72,6 +72,8 @@ void DuelScreen::Run() {
 		Engine::GUI::Render();
 
 		m_Window->OnUpdate();
+		if (m_Model != nullptr)
+			m_Model->ReduceOpacity();
 	}
 }
 
@@ -105,7 +107,6 @@ void DuelScreen::GUIRender(){
 			Engine::Logger::GetAppLogger()->debug(validMousePoints);
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
-				m_Entities.pop_back();
 				m_Enemy->ReduceLife(20);
 				gui_PlayerHit = true;
 				gui_WizardHit = false;
@@ -115,6 +116,7 @@ void DuelScreen::GUIRender(){
 			}
 			else {
 				m_Player->ReduceLife(20);
+				m_Model->ResetOpacity();
 				gui_WizardHit = true;
 				gui_PlayerHit = false;
 				if (m_Player->GetLife() <= 0) {

@@ -103,7 +103,7 @@ void TrainingScreen::GUIRender() {
 	ImGui::PopFont();
 	ImGui::End();
 
-	displayMessageOnScreen(m_ModelOnScreen);
+	//displayMessageOnScreen(m_ModelOnScreen);
 	if (gui_Pass || gui_NotPass || gui_NoModel || gui_NotDraw) {
 		if (gui_Pass)
 			displayMessageOnScreen("Congratulations ! You learn a new sign !");

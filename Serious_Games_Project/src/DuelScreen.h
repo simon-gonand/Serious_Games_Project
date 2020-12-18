@@ -3,6 +3,7 @@
 #include "Engine/WindowManager.h"
 #include "Engine/StateHandling.h"
 #include "Engine/Entity.h"
+#include "Engine/Model.h"
 #include "MousePoints.h"
 #include "Wizard.h"
 #include "ModelsResources.h"

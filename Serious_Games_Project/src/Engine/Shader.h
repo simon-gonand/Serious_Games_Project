@@ -18,6 +18,8 @@ namespace Engine {
 		void Bind() const;
 		void Unbind() const;
 
+		GLuint GetProgram() const;
+
 	private:
 		GLuint m_Prog;
 		GLuint m_TexID;

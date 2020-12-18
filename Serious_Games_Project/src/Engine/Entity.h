@@ -20,12 +20,15 @@ namespace Engine {
 		std::vector<unsigned int> GetIndices() const;
 		int GetIndexSize() const;
 
-	private:
+	protected: 
 		Shader* m_Shader;
-		std::vector<std::vector<GLfloat>> m_Vertices;
+		unsigned int m_VAO;
 		int m_IndexSize;
+
+	private:
+		std::vector<std::vector<GLfloat>> m_Vertices;
 		std::vector<unsigned int> m_Indices;
-		unsigned int m_VAO, m_VBO, m_IBO;
+		unsigned int m_VBO, m_IBO;
 		int m_VertexSize;
 	};
 }

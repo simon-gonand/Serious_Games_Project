@@ -54,8 +54,6 @@ namespace Engine {
 
 	std::vector<std::vector<GLfloat>> Entity::GetVertices() const { return m_Vertices; }
 	
-	std::vector<unsigned int> Entity::GetIndices() const { 
-		return m_Indices; 
-	}
+	std::vector<unsigned int> Entity::GetIndices() const { return m_Indices; }
 	int Entity::GetIndexSize() const { return m_IndexSize; }
 }

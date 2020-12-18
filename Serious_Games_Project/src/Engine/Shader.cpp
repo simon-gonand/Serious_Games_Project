@@ -193,6 +193,8 @@ namespace Engine {
 		glUseProgram(0);
 	}
 
+	GLuint Shader::GetProgram() const { return m_Prog; }
+
 	void Shader::LoadTexture(const char* texSrcFile) const {
 		int width, height, nrChannels;
 		unsigned char* data = stbi_load(texSrcFile, &width, &height, &nrChannels, STBI_rgb);
