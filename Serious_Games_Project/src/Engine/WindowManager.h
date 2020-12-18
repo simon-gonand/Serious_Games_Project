@@ -18,6 +18,8 @@ namespace Engine {
 	protected :
 		static WindowProps props;
 		static std::unique_ptr<Window> m_Window;
+
+		void displayMessageOnScreen(const char* message);
 	};
 }
 

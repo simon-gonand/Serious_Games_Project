@@ -42,6 +42,8 @@ void DuelScreen::Run() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		Engine::GUI::CreateNewFrame();
+
 		if (m_Model == nullptr) {
 			std::map<const char*, float*> models = ModelsResources::GetModels();
 			auto it = models.begin();
@@ -55,8 +57,6 @@ void DuelScreen::Run() {
 				modelShader, false, ModelsResources::GetModelReleaseNb()[randomIndex]);
 			m_Entities.push_back(*m_Model);
 		}
-
-		Engine::GUI::CreateNewFrame();
 
 		for (unsigned i = 0; i < m_Entities.size(); ++i) {
 			m_Entities[i].Draw();
@@ -107,8 +107,6 @@ void DuelScreen::GUIRender(){
 				m_Enemy->ReduceLife(20);
 				gui_PlayerHit = true;
 				gui_WizardHit = false;
-				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
-				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Enemy->GetLife() <= 0) {
 					ImGui::OpenPopup("Play Again?");
 				}
@@ -117,8 +115,6 @@ void DuelScreen::GUIRender(){
 				m_Player->ReduceLife(20);
 				gui_WizardHit = true;
 				gui_PlayerHit = false;
-				Engine::Logger::GetAppLogger()->info("You have {} HP", m_Player->GetLife());
-				Engine::Logger::GetAppLogger()->info("Your opponent has {} HP", m_Enemy->GetLife());
 				if (m_Player->GetLife() <= 0) {
 					gui_PlayerLoose = true;
 					ImGui::OpenPopup("Play Again?");
@@ -191,21 +187,15 @@ void DuelScreen::GUIRender(){
 	ImGui::PopFont();
 	ImGui::End();
 
-	currentFont->Scale = 1.3f;
+	
 	if (gui_PlayerHit || gui_WizardHit || gui_NotDraw) {
-		ImGui::SetNextWindowPos(ImVec2(m_Window->GetWidth() * 0.5f, m_Window->GetHeight() * 0.1f), 
-			ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-		ImGui::Begin(" ", nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-		ImGui::PushFont(currentFont);
 		if (gui_PlayerHit)
-			ImGui::Text("Yes ! You hit your opponent and he lost 20 HP");
+			displayMessageOnScreen("Yes ! You hit your opponent and he lost 20 HP");
 		else if (gui_WizardHit)
-			ImGui::Text("Ouch ! You lost 20 HP");
+			displayMessageOnScreen("Ouch ! You lost 20 HP");
 		else if (gui_NotDraw)
-			ImGui::Text("You didn't draw anything !");
-		ImGui::PopFont();
-		ImGui::End();
+			displayMessageOnScreen("You didn't draw anything !");
+		
 	}
 }
 

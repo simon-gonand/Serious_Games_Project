@@ -49,7 +49,7 @@ void ModelsResources::Initialise() {
 	modelsSizes.push_back(sizeof(rectangleVertices));
 	modelsIndicesSizes.push_back(sizeof(rectangleIndices));
 
-	models.insert(std::pair<const char*, float*>("MuKatakana", muKatakanaVertices));
+	models.insert(std::pair<const char*, float*>("Katakana Mu", muKatakanaVertices));
 	modelsIndices.push_back(muKatakanaIndices);
 	nbOfAuthorizeRelease.push_back(muKatakanaAuthorizeRelease);
 	modelsSizes.push_back(sizeof(muKatakanaVertices));

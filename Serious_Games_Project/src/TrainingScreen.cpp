@@ -92,6 +92,8 @@ void TrainingScreen::GUIRender() {
 			gui_NoModel = false;
 		}
 		else {
+			gui_NotPass = false;
+			gui_Pass = false;
 			gui_NotDraw = MousePoints::instance().IsEmpty() ? true : false;
 			gui_NoModel = m_Model == nullptr ? true : false;
 		}
@@ -101,23 +103,16 @@ void TrainingScreen::GUIRender() {
 	ImGui::End();
 
 	if (gui_Pass || gui_NotPass || gui_NoModel || gui_NotDraw) {
-		ImGui::SetNextWindowPos(ImVec2(m_Window->GetWidth() * 0.5f, m_Window->GetHeight() * 0.1f),
-			ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-		ImGui::Begin(" ", nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-		ImGui::PushFont(currentFont);
 		if (gui_Pass)
-			ImGui::Text("Congratulations ! You learn a new sign !");
+			displayMessageOnScreen("Congratulations ! You learn a new sign !");
 		else if (gui_NotPass)
-			ImGui::Text("Sorry ! Try again !");
+			displayMessageOnScreen("Sorry ! Try again !");
 		else {
 			if (gui_NoModel)
-				ImGui::Text("There's no model on screen");
+				displayMessageOnScreen("There's no model on screen");
 			if (gui_NotDraw)
-				ImGui::Text("You didn't draw anything");
+				displayMessageOnScreen("You didn't draw anything");
 		}
-		ImGui::PopFont();
-		ImGui::End();
 	}
 }
 
