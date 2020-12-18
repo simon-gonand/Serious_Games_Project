@@ -55,6 +55,7 @@ void TrainingScreen::GUIRender() {
 		buttonName += " Model";
 		if (ImGui::Button(buttonName.c_str())) {
 			if (m_Model == nullptr) {
+				m_ModelOnScreen = buttonName.c_str();
 				Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
 				m_Model = std::make_unique<Engine::Model>(itr.second, ModelsResources::GetModelIndices()[index],
 					ModelsResources::GetModelSize(index), ModelsResources::GetModelIndicesSize(index),
@@ -102,6 +103,7 @@ void TrainingScreen::GUIRender() {
 	ImGui::PopFont();
 	ImGui::End();
 
+	displayMessageOnScreen(m_ModelOnScreen);
 	if (gui_Pass || gui_NotPass || gui_NoModel || gui_NotDraw) {
 		if (gui_Pass)
 			displayMessageOnScreen("Congratulations ! You learn a new sign !");

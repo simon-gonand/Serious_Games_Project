@@ -26,6 +26,7 @@ public:
 private:
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
+	const char* m_ModelOnScreen;
 
 	Wizard* m_Player;
 	Wizard* m_Enemy;

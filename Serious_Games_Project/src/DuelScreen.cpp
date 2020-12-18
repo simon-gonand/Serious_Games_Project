@@ -51,6 +51,8 @@ void DuelScreen::Run() {
 			int randomIndex = (rand() % models.size());
 			std::advance(it, randomIndex);
 
+			m_ModelOnScreen = it->first;
+
 			Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
 			m_Model = std::make_unique<Engine::Model>(it->second, ModelsResources::GetModelIndices()[randomIndex], 
 				ModelsResources::GetModelSize(randomIndex), ModelsResources::GetModelIndicesSize(randomIndex), 
@@ -187,7 +189,7 @@ void DuelScreen::GUIRender(){
 	ImGui::PopFont();
 	ImGui::End();
 
-	
+	displayMessageOnScreen(m_ModelOnScreen);
 	if (gui_PlayerHit || gui_WizardHit || gui_NotDraw) {
 		if (gui_PlayerHit)
 			displayMessageOnScreen("Yes ! You hit your opponent and he lost 20 HP");

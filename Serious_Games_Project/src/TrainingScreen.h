@@ -29,6 +29,7 @@ public:
 private:
 	std::vector<Engine::Entity> m_Entities;
 	std::unique_ptr<Engine::Model> m_Model;
+	const char* m_ModelOnScreen;
 
 	bool m_DrawIsEnable;
 
