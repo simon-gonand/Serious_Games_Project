@@ -13,7 +13,6 @@ namespace Engine {
 	int Model::GetNumberOfReleasePossible() const { return m_NumberOfReleasePossible; }
 
 	void Model::Draw() {
-		Logger::GetSystemLogger()->debug(m_Opacity);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_Shader->Bind();

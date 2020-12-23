@@ -104,7 +104,6 @@ void DuelScreen::GUIRender(){
 		if (!MousePoints::instance().IsEmpty()) {
 			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			bool validMousePoints = MousePoints::instance().IsInside(*m_Model);
-			Engine::Logger::GetAppLogger()->debug(validMousePoints);
 			if (validMousePoints) {
 				m_Model.reset(nullptr);
 				m_Enemy->ReduceLife(20);
