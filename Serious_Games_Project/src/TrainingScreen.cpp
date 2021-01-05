@@ -54,6 +54,7 @@ void TrainingScreen::GUIRender() {
 		buttonName += itr.first;
 		buttonName += " Model";
 		if (ImGui::Button(buttonName.c_str())) {
+			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			if (m_Model == nullptr) {
 				m_ModelOnScreen = buttonName.c_str();
 				Engine::Shader* modelShader = new Engine::Shader("src/Shaders/Model.vert", "src/Shaders/Model.frag");
@@ -80,6 +81,7 @@ void TrainingScreen::GUIRender() {
 	ImGui::PushFont(currentFont);
 	if (ImGui::Button("Finish")) {
 		if (!MousePoints::instance().IsEmpty() && m_Model != nullptr) {
+			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			if (MousePoints::instance().IsInside(*m_Model)) {
 				gui_Pass = true;
 				gui_NotPass = false;
