@@ -41,10 +41,7 @@ void TrainingScreen::GUIRender() {
 	ImGui::PushFont(currentFont);
 	if (ImGui::Button("Clear Screen")) {
 		MousePoints::instance().Clear();
-		for (unsigned i = 1; i < m_Entities.size(); ++i) {
-			m_Entities.erase(m_Entities.begin() + i);
-			m_Model.reset();
-		}
+		m_Model = nullptr;
 	}
 
 	std::map<const char*, float*> models = ModelsResources::GetModels();
@@ -54,6 +51,7 @@ void TrainingScreen::GUIRender() {
 		buttonName += itr.first;
 		buttonName += " Model";
 		if (ImGui::Button(buttonName.c_str())) {
+			if (m_DrawIsEnable)
 			MousePoints::instance().PopBackReleaseIndex(); // Does not count the last mouse release
 			if (m_Model == nullptr) {
 				m_ModelOnScreen = buttonName.c_str();
