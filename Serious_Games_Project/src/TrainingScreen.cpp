@@ -60,7 +60,6 @@ void TrainingScreen::GUIRender() {
 				m_Model = std::make_unique<Engine::Model>(itr.second, ModelsResources::GetModelIndices()[index],
 					ModelsResources::GetModelSize(index), ModelsResources::GetModelIndicesSize(index),
 					modelShader, false, ModelsResources::GetModelReleaseNb()[index]);
-				m_Entities.push_back(*m_Model);
 			}
 		}
 		++index;
@@ -103,7 +102,6 @@ void TrainingScreen::GUIRender() {
 	ImGui::PopFont();
 	ImGui::End();
 
-	//displayMessageOnScreen(m_ModelOnScreen);
 	if (gui_Pass || gui_NotPass || gui_NoModel || gui_NotDraw) {
 		if (gui_Pass)
 			displayMessageOnScreen("Congratulations ! You learn a new sign !");
@@ -129,7 +127,8 @@ void TrainingScreen::Run() {
 		for (unsigned i = 0; i < m_Entities.size(); ++i) {
 			m_Entities[i].Draw();
 		}
-
+		if (m_Model != nullptr)
+			m_Model->Draw();
 		MousePoints::instance().Display();
 
 		GUIRender();
@@ -146,8 +145,9 @@ void TrainingScreen::MouseButtonCallback(GLFWwindow* window, int button, int act
 		MousePoints::instance().SetMouseButtonIsPressed(true);
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		MousePoints::instance().SetMouseButtonIsPressed(false);
-		if (m_DrawIsEnable && m_Model != nullptr)
+		if (m_DrawIsEnable) {
 			MousePoints::instance().AddReleaseIndex();
+		}
 	}
 }
 
